@@ -5,11 +5,11 @@ const lessons = [
     signs: [
       {
         name: "Hello",
-        embed: "https://bslsignbank.ucl.ac.uk/dictionary/words/hello-1.html"
+        video: "https://media.signbsl.com/videos/bsl/signstation/hello.mp4"
       },
       {
         name: "Goodbye",
-        embed: "https://bslsignbank.ucl.ac.uk/dictionary/words/goodbye-1.html"
+        video: "https://media.signbsl.com/videos/bsl/signstation/goodbye.mp4"
       }
     ]
   },
@@ -19,7 +19,7 @@ const lessons = [
     signs: [
       {
         name: "Thank You",
-        embed: "https://bslsignbank.ucl.ac.uk/dictionary/words/thank-you-1.html"
+        video: "https://media.signbsl.com/videos/bsl/signstation/thank-you.mp4"
       }
     ]
   }
