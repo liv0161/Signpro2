@@ -8,8 +8,16 @@ let index = 0;
 function load() {
   const s = lesson.signs[index];
 
-  document.getElementById("frame").src = s.embed;
+  document.getElementById("counter").innerText = "Sign" + (index+1) + "of" + lesson.signs.length;
   document.getElementById("name").innerText = s.name;
+  const video = document.getElementById("name").innerText - s.name;
+  if(!video){
+    console.error("Video element not found");
+    return;
+  }
+  video.src=s.video;
+  video.load();
+  video.play().catch(()=>{});
 }
 
 function next() {
