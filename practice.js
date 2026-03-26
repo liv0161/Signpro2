@@ -21,7 +21,10 @@ function loadQ() {
 
   const q = questions[i];
 
-  document.getElementById("frame").src = q.embed;
+  const vid = document.getElementById("video");
+  vid.src = q.video
+  vid.load();
+  vid.play();
 
   if (q.type === "mcq") {
 
