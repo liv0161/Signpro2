@@ -5,7 +5,7 @@ const lessons = [
     signs: [
       {
         name: "Hello",
-        video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HELLO.mp4"
+        video: "https://youtu.be/jLqplcvPnG0"
       },
       {
         name: "Goodbye",
@@ -19,7 +19,7 @@ const lessons = [
     signs: [
       {
         name: "Thank You",
-        video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/TH/THANK.mp4"
+        video: "https://youtu.be/jLqplcvPnG0"
       }
     ]
   }
