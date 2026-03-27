@@ -1,4 +1,4 @@
-// ===== DATABASE =====
+
 function getUsers() {
   return JSON.parse(localStorage.getItem("users")) || {};
 }
@@ -7,7 +7,7 @@ function saveUsers(users) {
   localStorage.setItem("users", JSON.stringify(users));
 }
 
-// ===== HASHING =====
+
 async function hash(password) {
   const data = new TextEncoder().encode(password);
   const buffer = await crypto.subtle.digest("SHA-256", data);
@@ -16,7 +16,7 @@ async function hash(password) {
     .join("");
 }
 
-// ===== VALIDATION =====
+
 function validEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -27,7 +27,7 @@ function validPassword(password) {
          /[A-Z]/.test(password);
 }
 
-// ===== REGISTER =====
+
 async function register() {
 
   const email = document.getElementById("regEmail").value.trim();
@@ -51,7 +51,7 @@ async function register() {
   alert("Account created");
 }
 
-// ===== LOGIN =====
+
 async function login() {
 
   const email = document.getElementById("loginEmail").value.trim();
