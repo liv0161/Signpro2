@@ -1,15 +1,21 @@
 checkSession();
 
-const user = localStorage.getItem("currentUser");
+const userEmail = localStorage.getItem("currentUser");
 const users = JSON.parse(localStorage.getItem("users"));
-
-const progress = users[user].progress;
+const progress = users[userEmail].progress;
 
 const container = document.getElementById("course");
 
+function isUnlocked(index){
+  if (index===0) return true;
+  const prev = lessons[index-1];
+  const data = progress[prev.id];
+  if(!data) return false;
+  return data.ccuracy>=70;
+}
 lessons.forEach((lesson, i) => {
 
-  const unlocked = i === 0 || progress.includes(lessons[i-1].id);
+  const unlocked = isUnlocked(i);
 
   container.innerHTML += `
     <div>
