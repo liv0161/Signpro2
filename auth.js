@@ -44,7 +44,9 @@ async function register() {
     password: await hash(password),
     attempts: 0,
     locked: false,
-    progress: []
+    progress: {},
+    signStats:{},
+    created: new Date().toISOString()
   };
 
   saveUsers(users);
