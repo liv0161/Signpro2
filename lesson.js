@@ -4,23 +4,19 @@ const lessonId = localStorage.getItem("lesson");
 const lesson = lessons.find(l => l.id === lessonId);
 
 let index = 0;
+let correct = 0;
+document.getElementById("lessonTitle").innerText = lesson.title;
 
 function load() {
   const s = lesson.signs[index];
 
-  document.getElementById("counter").innerText = "Sign" + (index+1) + "of" + lesson.signs.length;
+  document.getElementById("counter").innerText = `Sign ${index+1} of ${lesson.signs.length}`;
   document.getElementById("name").innerText = s.name;
-  const video = document.getElementById("name").innerText - s.name;
-  if(!video){
-    console.error("Video element not found");
-    return;
+  document.getElementById("video").src = s.video;
   }
-  video.src=s.video;
-  video.load();
-  video.play().catch(()=>{});
-}
 
 function next() {
+  correct++;
   index++;
 
   if (index < lesson.signs.length) {
@@ -31,17 +27,25 @@ function next() {
 }
 
 function complete() {
-
-  const user = localStorage.getItem("currentUser");
+  const userEmail = localStorage.getItem("currentUser");
   const users = JSON.parse(localStorage.getItem("users"));
+  const user = users[userEmail];
 
-  if (!users[user].progress.includes(lesson.id)) {
-    users[user].progress.push(lesson.id);
-  }
+  const total = lesson.signs.length;
+  const accuracy = Math.round(correct/total)*100)
+
+  user.progress[lesson.id] = {
+    completed: true,
+    score: correct,
+    attempts: (user.progress[lesson.id]?.attempts || 0)+1,
+    astPractised: new Dat().toISOString(),
+    signsCorrect correct,
+    signsWrong: total - correct,
+    accuracy
+  };
 
   localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Lesson complete");
+  alert("Lesson complete:"+ accuracy+"%");
   window.location.href = "course.html";
 }
 
