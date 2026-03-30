@@ -1,7 +1,8 @@
 checkSession();
 
-const user = localStorage.getItem("currentUser");
+const userEmail = localStorage.getItem("currentUser");
 const users = JSON.parse(localStorage.getItem("users"));
+const user = users[userEmail]
 
 document.getElementById("progress").innerText =
-  "Lessons completed: " + users[user].progress.length;
+  JSON.stringify(user.progress,null,2)
