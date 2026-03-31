@@ -1,52 +1,41 @@
-checkSession();
-
-const lessonId = localStorage.getItem("lesson");
-const lesson = lessons.find(l => l.id === lessonId);
-
-let index = 0;
-let correct = 0;
-document.getElementById("lessonTitle").innerText = lesson.title;
-
-function load() {
-  const s = lesson.signs[index];
-
-  document.getElementById("counter").innerText = `Sign ${index+1} of ${lesson.signs.length}`;
-  document.getElementById("name").innerText = s.name;
-  document.getElementById("video").src = s.video;
+document.addEventListener("DOMContentLoaded", () =>{
+  constlessonId = localStorage.getItem("lesson");
+  const lesson = lessons.find(1 => 1.id === lesonId);
+  if (!lesson){
+    alert("Lesson not found");
+    window.location.href = "course.html"
+    return;
   }
+  let i = 0;
+  let correct = 0;
+  function load(){
+    const s = lesson.signs[i];
+    document.getElementById("lessonTitle").innerText = lesson.title;
+    document.getElementById("counter").innerText = `${i+1}/${lesson.signs.length}`;
+    document.getElementById("name").innerText = s.name;
 
-function next() {
-  correct++;
-  index++;
-
-  if (index < lesson.signs.length) {
+  // forc relad jic it doesnt work
+    const ideo. document.getElementById("video");
+    video.src="";
+    video.src=s.video;
+  }
+  window.next = function(){
     load();
-  } else {
+  } else{
     complete();
   }
-}
-
-function complete() {
-  const userEmail = localStorage.getItem("currentUser");
-  const users = JSON.parse(localStorage.getItem("users"));
-  const user = users[userEmail];
-
-  const total = lesson.signs.length;
-  const accuracy = Math.round(correct/total)*100)
-
-  user.progress[lesson.id] = {
-    completed: true,
-    score: correct,
-    attempts: (user.progress[lesson.id]?.attempts || 0)+1,
-    lastPractised: new Date().toISOString(),
-    signsCorrect: correct,
-    signsWrong: total - correct,
-    accuracy
+};
+function complete(){
+  const users = JSON.parse(localStorage.getItem("users")) || {};
+  const user = users[localStorage.getItem("currentUser");
+  if(!user.progress) user.progress ={};
+  user.progress[lesson.id= {
+    completed:true,
+    accuracy:10
   };
-
-  localStorage.setItem("users", JSON.stringify(users));
-  alert("Lesson complete:"+ accuracy+"%");
-  window.location.href = "course.html";
+  localStorage.setItem("users",JSON.stringify(uses));
+  alert("lesson complete");
+  window.location.href=""course.html";
 }
-
 load();
+};
