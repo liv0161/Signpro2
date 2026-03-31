@@ -16,7 +16,7 @@ const lessons = [
       {name: "Thank You", video: "https://youtu.be/jLqplcvPnG0"},
       {name: "Please", video: "https://youtu.be/auPMG2cE5dg?si=oZGRW2ra3SpRkDaP"},
       {name: "Sorry", video: "https://youtu.be/SlQCAOfKvds?si=HvMwj3QS1RpxQhy1"},
-      {nmme:"You're Welcome",video:"https://youtu.be/hwA0v_Pd844?si=y4Q3a8eZFDE6hnLZ"}
+      {name:"You're Welcome",video:"https://youtu.be/hwA0v_Pd844?si=y4Q3a8eZFDE6hnLZ"}
     ]
   },
   {
