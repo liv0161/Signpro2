@@ -1,4 +1,4 @@
-const lessons = [
+]const lessons = [
   {
     id: "lesson1",
     title: "Greetings",
@@ -46,12 +46,12 @@ const lessons = [
     id:"lesson5",
     title:"Questions",
     signs:[
-      {name:"Who?",video:"https://youtu.be/embed/QcgS4DhxPtY?si=fPaJJLhrPPsAFMxh"},
-      {name:"What?",video:"https://youtu.be/embed/kxag6_1TKAA?si=JEujXglXSKsW_O0q"},
-      {name:"When?",video:"https://youtu.be/embed/4pHEfwqxuvs?si=l_S9sfK1IK5XpNlo"},
-      {name:"Where?",video:"https://youtu.be/embed/qAY6hUsCs84?si=J6417oMO8pOepq8u"},
-      {name:"Why?",video:"https://youtu.be/embed/Bk0otnfrljA?si=qzPVqA4BE-DnEMCm"},
-      {name:"How?",video:"https://youtu.be/embed/DBbuPmLpbyM?si=Q5e_xxCZ-osI7PRY"}
+      {name:"Who?",video:"https://www.youtube.com/embed/QcgS4DhxPtY?si=EevX0TNa8JqGrQdL"},
+      {name:"What?",video:"https://www.youtube.com/embed/kxag6_1TKAA?si=Tzme56wgU-jvTwpM"},
+      {name:"When?",video:"https://www.youtube.com/embed/4pHEfwqxuvs?si=tF6O-A8O2EV0W4D9"},
+      {name:"Where?",video:"https://www.youtube.com/embed/qAY6hUsCs84?si=gMKygMgxzyWK_5v0"},
+      {name:"Why?",video:"https://www.youtube.com/embed/Bk0otnfrljA?si=BBrgyb24xShMH9A2"},
+      {name:"How?",video:"https://www.youtube.com/embed/DBbuPmLpbyM?si=lefPTWnkL6VbwHeH"}
       ]
   }
   ];
