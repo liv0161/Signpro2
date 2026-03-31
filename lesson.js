@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     document.getElementById("name").innerText = s.name;
 
   // forc relad jic it doesnt work
-    const video. document.getElementById("video");
+    const video = document.getElementById("video");
     video.src = s.video;
   }
   window.next = function(){
