@@ -3,10 +3,10 @@ const lessons = [
     id: "lesson1",
     title: "Greetings",
     signs: [
-      {name: "Hello",video: "https://youtu.be/jLqplcvPnG0"},
-      {name: "Goodbye", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WA/WAVE-HAND.mp4"},
-      {name: "How Are You?", video:"https://youtu.be/s0wYgm4l2so?si=F_tiv059Zp0nErcu"},
-      {name:"My Name Is", video: "https://youtu.be/KVxDi1yC8_4?si=aC1yureKIVwHCr1c"},
+      {name: "Hello",video: "https://www.youtube.com/embed/gWIrN56a55I?si=LY_VazoOxIrcWzrW"},
+      {name: "Goodbye", video: "https://www.youtube.com/embed/UaF2_Q2uy-8?si=3RHO-eiAuOI2YIC6"},
+      {name: "How Are You?", video:"https://www.youtube.com/embed/s0wYgm4l2so?si=Ww2hFBCPQzioigbb"},
+      {name:"My Name Is", video: "https://www.youtube.com/embed/KVxDi1yC8_4?si=Ef5wu1PY85vNckbp"},
     ]
   },
   {
@@ -25,7 +25,7 @@ const lessons = [
     signs:[
       {name: "Eat", video:"https://youtu.be/embed/JGjCpTB3hoY?si=YkZ94xiEV9Wp4J8G"},
       {name:"Drink",video:"https://youtu.be/embed/uUL1SaNlR-Q?si=_CGiC25EusZ2_mfD"},
-      {name:"Look",video:"https://youtu.be/embed/9R3n-gp22bg?si=HzVPxqrF1M58tzX6"},
+      {name:"Look",video:"https://www.youtube.com/embed/9R3n-gp22bg?si=gq7ycOgprbGdddUV"},
       {name:"Listen",video:"https://youtu.be/embed/TuVv1mJ9qwE?si=jJXufWm913ZNewqf"},
       {name:"Stop",video:"https://youtu.be/embed/v3ApBdJS_d4?si=ygNB9dsGKwLl35PQ"}
 ]
