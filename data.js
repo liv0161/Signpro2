@@ -23,11 +23,11 @@ const lessons = [
     id:"lesson3",
     title:"Common Verbs",
     signs:[
-      {name: "Eat", video:"https://youtu.be/embed/JGjCpTB3hoY?si=YkZ94xiEV9Wp4J8G"},
-      {name:"Drink",video:"https://youtu.be/embed/uUL1SaNlR-Q?si=_CGiC25EusZ2_mfD"},
-      {name:"Look",video:"https://www.youtube.com/embed/9R3n-gp22bg?si=gq7ycOgprbGdddUV"},
-      {name:"Listen",video:"https://youtu.be/embed/TuVv1mJ9qwE?si=jJXufWm913ZNewqf"},
-      {name:"Stop",video:"https://youtu.be/embed/v3ApBdJS_d4?si=ygNB9dsGKwLl35PQ"}
+      {name: "Eat", video:"https://www.youtube.com/embed/JGjCpTB3hoY?si=6Ms5SsTVswpteCpr"},
+      {name:"Drink",video:"https://www.youtube.com/embed/uUL1SaNlR-Q?si=tKMEyfJMDOXyemi8"},
+      {name:"Look",video:"https://www.youtube.com/embed/9R3n-gp22bg?si=2xGao1CJUQkZR3EG"},
+      {name:"Listen",video:"https://www.youtube.com/embed/TuVv1mJ9qwE?si=ubinTgOCGm_9EpPs"},
+      {name:"Stop",video:"https://www.youtube.com/embed/v3ApBdJS_d4?si=aam9iNkocaVG0N_t"}
 ]
   },
   {
