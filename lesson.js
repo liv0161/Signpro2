@@ -38,8 +38,8 @@ function complete() {
     completed: true,
     score: correct,
     attempts: (user.progress[lesson.id]?.attempts || 0)+1,
-    astPractised: new Dat().toISOString(),
-    signsCorrect correct,
+    lastPractised: new Date().toISOString(),
+    signsCorrect: correct,
     signsWrong: total - correct,
     accuracy
   };
