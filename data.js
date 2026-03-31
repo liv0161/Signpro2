@@ -34,12 +34,12 @@ const lessons = [
     id:"lesson4",
     title:"Kitchen Phrases",
     signs:[
-      {name: "Would You Like Some Food?",video:"https://youtu.be/embed/n-Yn3fNANhk?si=ZDx-Y_fM5daVi5Xd"},
-      {name:"Hungry",video:"https://youtu.be/embed/6fLdeyoZY9c?si=A7A56wxn51vqM569"},
-      {name:"Sandwich",video:"https://youtu.be/embed/BFINI9jyK8U?si=Mu6YPdPqPryjigjL"},
-      {name:"Cooking",video:"https://youtu.be/embed/2tP65TrF2CQ?si=XzkK9EtZsUTbabmq"},
-      {name:"Chocolate",video:"https://youtu.be/embed/UM7_QMdCFcA?si=1Y3LKfaLmXdTe_5Y"},
-      {name:"Crisps",video:"https://youtu.be/embed/KRDla78kYHE?si=kgHPownEDP7LRW8I"}
+      {name: "Would You Like Some Food?",video:"https://www.youtube.com/embed/n-Yn3fNANhk?si=4uj7rlX-NidDOLmx"},
+      {name:"Hungry",video:"https://www.youtube.com/embed/n-O5vqdKIKo?si=nyW-gFTZyCFKtMcJ"},
+      {name:"Sandwich",video:"https://www.youtube.com/embed/BFINI9jyK8U?si=tD6U6BgLwU4Lf6b-"},
+      {name:"Cooking",video:"https://www.youtube.com/embed/2tP65TrF2CQ?si=odLvXeEQ-mtxFeHE"},
+      {name:"Chocolate",video:"https://www.youtube.com/embed/UM7_QMdCFcA?si=EWQbeVqE_1Qs5Kvq"},
+      {name:"Crisps",video:"https://www.youtube.com/embed/KRDla78kYHE?si=KUIl_D1O7TI25IqB"}
   ]
   },
   {
