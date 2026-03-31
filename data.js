@@ -13,10 +13,10 @@ const lessons = [
     id: "lesson2",
     title: "Manners",
     signs: [
-      {name: "Thank You", video: "https://youtu.be/embed/jLqplcvPnG0"},
-      {name: "Please", video: "https://youtu.be/embed/auPMG2cE5dg?si=oZGRW2ra3SpRkDaP"},
-      {name: "Sorry", video: "https://youtu.be/embed/SlQCAOfKvds?si=HvMwj3QS1RpxQhy1"},
-      {name:"You're Welcome",video:"https://youtu.be/embed/hwA0v_Pd844?si=y4Q3a8eZFDE6hnLZ"}
+      {name: "Thank You", video: "https://www.youtube.com/embed/jLqplcvPnG0?si=ALY72NCNInqUTIMy"},
+      {name: "Please", video: "https://www.youtube.com/embed/auPMG2cE5dg?si=cU9iB1qkGQbQOZdb"},
+      {name: "Sorry", video: "https://www.youtube.com/embed/SlQCAOfKvds?si=Fsu4_XFb_P3EM6EW"},
+      {name:"You're Welcome",video:"https://www.youtube.com/embed/hwA0v_Pd844?si=6oNy0hrMar3NZDPz"}
     ]
   },
   {
