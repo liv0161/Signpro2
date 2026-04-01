@@ -6,7 +6,7 @@
       {name: "Hello",video: "https://www.youtube.com/embed/gWIrN56a55I?si=LY_VazoOxIrcWzrW"},
       {name: "Goodbye", video: "https://www.youtube.com/embed/UaF2_Q2uy-8?si=3RHO-eiAuOI2YIC6"},
       {name: "How Are You?", video:"https://www.youtube.com/embed/s0wYgm4l2so?si=Ww2hFBCPQzioigbb"},
-      {name:"My Name Is", video: "https://www.youtube.com/embed/KVxDi1yC8_4?si=Ef5wu1PY85vNckbp"},
+      {name:"My Name Is", video: "https://www.youtube.com/embed/KVxDi1yC8_4?si=Ef5wu1PY85vNckbp"}
     ]
   },
   {
