@@ -1,4 +1,4 @@
-]const lessons = [
+const lessons = [
   {
     id: "lesson1",
     title: "Greetings",
