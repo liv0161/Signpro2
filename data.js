@@ -5,8 +5,8 @@ const lessons = [
     signs: [
       { name: "Hello", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HELLO.mp4" },
       { name: "Goodbye", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WA/WAVE-HAND.mp4" },
-      { name: "How Are You?", video: "https://www.youtube.com/embed/s0wYgm4l2so" },
-      { name: "My Name Is", video: "https://www.youtube.com/embed/KVxDi1yC8_4" }
+      { name: "How Are You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HO/HOW.mp4" },
+      { name: "My Name Is", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/NA/NAME.mp4" }
     ]
   },
   {
@@ -16,7 +16,7 @@ const lessons = [
       { name: "Thank You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/TH/THANK-YOU.mp4" },
       { name: "Please", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/PL/PLEASE.mp4" },
       { name: "Sorry", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/SO/SORRY.mp4" },
-      { name: "You're Welcome", video: "https://www.youtube.com/embed/hwA0v_Pd844" }
+      { name: "You're Welcome", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/YO/YOU.mp4" }
     ]
   },
   {
@@ -32,11 +32,12 @@ const lessons = [
   },
   {
     id: "lesson4",
-    title: "Kitchen Phrases",
+    title: "Food & Kitchen",
     signs: [
+      { name: "Food", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/FO/FOOD.mp4" },
       { name: "Hungry", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HU/HUNGRY.mp4" },
       { name: "Sandwich", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/SA/SANDWICH.mp4" },
-      { name: "Cooking", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/CO/COOK.mp4" },
+      { name: "Cook", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/CO/COOK.mp4" },
       { name: "Chocolate", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/CH/CHOCOLATE.mp4" },
       { name: "Crisps", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/CR/CRISPS.mp4" }
     ]
@@ -45,12 +46,12 @@ const lessons = [
     id: "lesson5",
     title: "Questions",
     signs: [
-      { name: "Who?", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHO.mp4" },
-      { name: "What?", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHAT.mp4" },
-      { name: "When?", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHEN.mp4" },
-      { name: "Where?", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHERE.mp4" },
-      { name: "Why?", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHY.mp4" },
-      { name: "How?", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HO/HOW.mp4" }
+      { name: "Who", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHO.mp4" },
+      { name: "What", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHAT.mp4" },
+      { name: "When", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHEN.mp4" },
+      { name: "Where", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHERE.mp4" },
+      { name: "Why", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WH/WHY.mp4" },
+      { name: "How", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HO/HOW.mp4" }
     ]
   }
 ];
