@@ -1,38 +1,43 @@
 let currentSign;
-let currentLesson;
+
 function pickRandom() {
-  const lesson = lessons[Math.floor(Math.random()*lessons.length)];
-  currentLesson = lesson;
-  const sign = lesson.signs[Math.floor(Math.random()* lesson.signs.length)];
+  if (!lessons || lessons.length === 0) {
+    document.getElementById("feedback").innerText = "No lessons found";
+    return;
+  }
+
+  const allSigns = lessons.flatMap(l => l.signs);
+
+  const sign = allSigns[Math.floor(Math.random() * allSigns.length)];
   currentSign = sign;
-  document.getElementById("video").src = sign.video
-}
-function checkAnswer(){
-  const input=document.getElementById("answer").value.toLowerCase();
-  const correct = currentSign.name.toLowerCase();
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  const user = users[localStorage.getItem("currentUser")];
-  if (!user.progress) user.progress = {};
-  if (!user.progress[currentLesson.id]){
-    user.progress[currentLesson.id] = {
-      correct: 0,
-      total: 0,
-      accuracy: 0
-    };
-  }
-  const lessonData = user.progress[currentLesson.id];
-  lessonData.total++;
-  if (input ===correct){
-    lessonData.correct++;
-    document.getElementById("feedback").innerText = "Correct!;
-  } else{
-    document.getElementById("feedback").innerText = "Incorrect! Correct answer: " + currentSign.name;
+
+  const video = document.getElementById("video");
+
+  if (!video) {
+    console.log("Video element not found");
+    return;
   }
 
-lessonData.accuracy = Math.round((lessonData.correct/ lessonData.total) * 100);
-localStorage.setItem("users", JSON.stringify(users));
-
-document.getElementById("answer").value = "";
-pickRandom();
+  video.src = "";
+  video.src = sign.video;
+  video.load();
 }
-pickRandom();
+
+function checkAnswer() {
+  const input = document.getElementById("answer").value.toLowerCase();
+
+  if (!currentSign) return;
+
+  if (input === currentSign.name.toLowerCase()) {
+    document.getElementById("feedback").innerText = "Correct!";
+  } else {
+    document.getElementById("feedback").innerText =
+      "Wrong! Correct answer: " + currentSign.name;
+  }
+
+  document.getElementById("answer").value = "";
+
+  pickRandom();
+}
+// loads page first
+window.onload = pickRandom;
