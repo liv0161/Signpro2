@@ -27,16 +27,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   lessons.forEach((l, i) => {
-    container.innerHTML += `
-      <div>
-        <h3>${l.title}</h3>
-        <button onclick="startLesson('${l.id}')"
-          ${!unlocked(i) ? "disabled" : ""}>
-          ${unlocked(i) ? "Start" : "Locked"}
-        </button>
-      </div>
-    `;
-  });
+
+  const data = user.progress[l.id];
+  const accuracy = data ? data.accuracy : 0;
+
+  container.innerHTML += `
+    <div>
+      <h3>${l.title}</h3>
+      <p>Accuracy: ${accuracy}%</p>
+      <button onclick="startLesson('${l.id}')"
+        ${!unlocked(i) ? "disabled" : ""}>
+        ${unlocked(i) ? "Start" : "Locked"}
+      </button>
+    </div>
+  `;
+});
 
 });
 
