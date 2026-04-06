@@ -2,24 +2,24 @@
 <html>
 <head>
   <title>Practice</title>
-  <link rel="stylesheet" href="style.css">
 </head>
-
-<body onload="checkSession()">
 
 <h2>Practice</h2>
 
-<iframe id="video" width="400" height="300"></iframe>
+<video id="video" width="400" height="300"></video>
 
-<div id="area"></div>
-<br>
-<button onclick="submit()">Submit</button>
+<br><br>
+<input id="answer" placeholder = "Type the sign name">
+<br><br>
+<button onclick="checkAnswer()">Submit</button>
 
+<p id= "feedback"></p>  
+  
 <button onclick="location.href='practice.html'">Practice</button>
 <button onclick="location.href='course.html'">Go back to lessons</button>
 
-<script src="data.js"></script>
-<script src="course.js"></script>
+<script src="./data.js"></script>
+<script src="./course.js"></script>
 
 </body>
 </html>
