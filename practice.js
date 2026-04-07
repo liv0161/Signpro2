@@ -10,14 +10,23 @@ function isUnlocked(index,user){
 // pick rndom signs from unlcoked lessons
 function pickRandom() {
   const users=JSON.parse(localStorage.getItem("users"))|| {};
-  const user = users[localStorage.getItem("currentUser")];
-  if (!user.progress)user.progress={};
-  const unlockedLessons = lessons.filter((l,i) =>
-    isUnlocked(i,user)
-  );
+  const currentUsername = localStorage.getItem("currentUser");
+  if (!currentUsename || !users[currentUsername]) {
+    document.getElementById("feedback").innerText = "No user found";
+    return;
+  }
+  const user = users[currentUsername];
+  if (!user.progress) user.progress={};
+  // always have lesson 1
+  const unlockedLessons = lessons.filter((l,i) =>{
+    if (i===0) return true;
+    const prevLesson = lessons[i-1];
+    const prevData = user.progress[prevLesson.id];
+    return prevData &&prevData.accuracy>= 70;
+  });
+    // dont let practice be empty
   if (unlockedLessons.length===0){
-    document.getElementById("feedback").innerText = "No lessons unlocked yet";
-      return;
+    unlockedLessons.push(lessons[0]);
   }
   // pick random lesson
   const lesson = 
