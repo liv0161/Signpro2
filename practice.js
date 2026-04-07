@@ -1,43 +1,73 @@
 let currentSign;
-
+let currentLessonId;
+// check for unlocked lessons
+function isUnlocked(index,user){
+  if(index===0) return true;
+  const prevLesson = lessons[index-1];
+  const prevData = user.progress?.[prevLesson.id];
+  return prevData&&prevData.accuracy>=70;
+}
+// pick rndom signs from unlcoked lessons
 function pickRandom() {
-  if (!lessons || lessons.length === 0) {
-    document.getElementById("feedback").innerText = "No lessons found";
-    return;
+  const users=JSON.parse(localStorage.getItem("users"))|| {};
+  const user = users[localStorage.getItem("currentUser")];
+  if (!user.progress)user.progress={};
+  const unlockedLessons = lessons.filter((l,i) =>
+    isUnlocked(i,user)
+  );
+  if (unlockedLessons.length===0){
+    document.getElementById("feedback").innerText = "No lessons unlocked yet";
+      return;
   }
-
-  const allSigns = lessons.flatMap(l => l.signs);
-
-  const sign = allSigns[Math.floor(Math.random() * allSigns.length)];
+  // pick random lesson
+  const lesson = 
+    unlockedLessons[Math.floor(Math.random()* unlockedLessons.length)];
+  currentLessonId= lesson.id;
+// pic random ign from tha lesson
+  const sign = 
+    lesson.signs[Math.floor(Math.random()* lesson.signs.length)];
   currentSign = sign;
-
   const video = document.getElementById("video");
-
-  if (!video) {
-    console.log("Video element not found");
-    return;
-  }
-
-  video.src = "";
-  video.src = sign.video;
+  video.src="";
+  video.src=sign.video;
   video.load();
-  // for mcq options
+  video.play().catch(()=>{});
   showOptions(sign.name);
 }
 // checks users typed answer
 function checkAnswer() {
   const input = document.getElementById("answer").value.toLowerCase();
-
-  if (!currentSign) return;
-
-  if (input === currentSign.name.toLowerCase()) {
-    document.getElementById("feedback").innerText = "Correct!";
+}
+// mcq answers
+function selectOption(choice){
+  const correct = choice === currentSign.name;
+  updateProgress(correct);
+}
+// update progress
+function updateProgress(isCorrect){
+  const users=JSON.parse(localStorage.getItem("users"))||{};
+  const user = users[localStorage.getItem("currentUser")];
+  if(!user.progress) user.progress={};
+  if(!user.progress[currentLessonId]){
+    user.progress[currentLessonId] = {
+      correct: 0,
+      total: 0,
+      accuracy:0
+    };
+  }
+  const data = user.progress[currentLessonId];
+  data.total++;
+  if (isCorrect{
+    data.correct++;
+    document.getElementById("feedbck").innerText"Correct!";
   } else {
     document.getElementById("feedback").innerText =
       "Wrong! Correct answer: " + currentSign.name;
   }
-  document.getElementById("answer").value="";
+  data.accuracy = Math.round((data.correct / data.total) *100);
+  localStorage.setItem("users", JSON.stringify(users));
 }
+
 // changes displayed sign
 function nextSign() {
   document.getElementById("answer").value = "";
