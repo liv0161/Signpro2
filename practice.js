@@ -1,54 +1,67 @@
 let currentSign;
 let currentLessonId;
-// check for unlocked lessons
-function isUnlocked(index,user){
-  if(index===0) return true;
-  const prevLesson = lessons[index-1];
-  const prevData = user.progress?.[prevLesson.id];
-  return prevData&&prevData.accuracy>=70;
-}
-// pick rndom signs from unlcoked lessons
+
 function pickRandom() {
   const users = JSON.parse(localStorage.getItem("users")) || {};
   const currentUsername = localStorage.getItem("currentUser");
 
   if (!currentUsername || !users[currentUsername]) {
-    document.getElementById("feedback").innerText = "No user found";
+    console.log("No user found → using lesson 1");
+    loadFromLesson(lessons[0]);
     return;
   }
 
   const user = users[currentUsername];
   if (!user.progress) user.progress = {};
 
-  // Always start with lesson 1
-  let availableLessons = [lessons[0]];
+  // check for unlocked lessons
+  let availableLessons = [];
 
-  // Unlock next lessons step by step
-  for (let i = 1; i < lessons.length; i++) {
-    const prevLesson = lessons[i - 1];
-    const prevData = user.progress[prevLesson.id];
-
-    if (prevData && prevData.accuracy >= 70) {
+  for (let i = 0; i < lessons.length; i++) {
+    if (i === 0) {
       availableLessons.push(lessons[i]);
     } else {
-      break; // stop unlocking further
+      const prev = lessons[i - 1];
+      const data = user.progress[prev.id];
+
+      if (data && data.accuracy >= 70) {
+        availableLessons.push(lessons[i]);
+      } else {
+        break;
+      }
     }
   }
 
-  //Pick random lesson
+ 
+  if (availableLessons.length === 0) {
+    console.log("Fallback triggered → lesson 1");
+    loadFromLesson(lessons[0]);
+    return;
+  }
+
   const lesson =
     availableLessons[Math.floor(Math.random() * availableLessons.length)];
 
+  loadFromLesson(lesson);
+}
+
+// separate load (bc it decided to stop working)
+function loadFromLesson(lesson) {
   currentLessonId = lesson.id;
 
-  // Pick random sign
   const sign =
     lesson.signs[Math.floor(Math.random() * lesson.signs.length)];
 
   currentSign = sign;
 
-  // Load video properly
+  console.log("Loaded sign:", sign.name);
+
   const video = document.getElementById("video");
+
+  if (!video) {
+    console.log("Video element missing");
+    return;
+  }
 
   video.pause();
   video.removeAttribute("src");
@@ -57,61 +70,85 @@ function pickRandom() {
   video.src = sign.video;
   video.load();
 
-  // Show MCQ
   showOptions(sign.name);
 }
-// checks users typed answer
+
+// checks user's typed answer
 function checkAnswer() {
   const input = document.getElementById("answer").value.toLowerCase();
+  if (!currentSign) return;
+
+  updateProgress(input === currentSign.name.toLowerCase());
+  document.getElementById("answer").value = "";
 }
-// mcq answers
-function selectOption(choice){
-  const correct = choice === currentSign.name;
-  updateProgress(correct);
+
+// mcq
+function selectOption(choice) {
+  if (!currentSign) return;
+
+  updateProgress(choice === currentSign.name);
+
+  setTimeout(() => {
+    nextSign();
+  }, 1000);
 }
+
 // update progress
-function updateProgress(isCorrect){
-  const users=JSON.parse(localStorage.getItem("users"))||{};
+function updateProgress(correct) {
+  const users = JSON.parse(localStorage.getItem("users")) || {};
   const user = users[localStorage.getItem("currentUser")];
-  if(!user.progress) user.progress={};
-  if(!user.progress[currentLessonId]){
+
+  if (!user.progress) user.progress = {};
+
+  if (!user.progress[currentLessonId]) {
     user.progress[currentLessonId] = {
       correct: 0,
       total: 0,
-      accuracy:0
+      accuracy: 0
     };
   }
+
   const data = user.progress[currentLessonId];
+
   data.total++;
-  if (isCorrect{
+
+  if (correct) {
     data.correct++;
-    document.getElementById("feedbck").innerText"Correct!";
+    document.getElementById("feedback").innerText = "Correct!";
   } else {
     document.getElementById("feedback").innerText =
       "Wrong! Correct answer: " + currentSign.name;
   }
-  data.accuracy = Math.round((data.correct / data.total) *100);
+
+  data.accuracy = Math.round((data.correct / data.total) * 100);
+
   localStorage.setItem("users", JSON.stringify(users));
 }
 
-// changes displayed sign
+// changes sign to next
 function nextSign() {
-  document.getElementById("answer").value = "";
   document.getElementById("feedback").innerText = "";
+  document.getElementById("answer").value = "";
   pickRandom();
 }
-// for multiple choice questions
+
+// mcq options
 function showOptions(correctAnswer) {
   const allSigns = lessons.flatMap(l => l.signs);
+
+  if (!allSigns.length) return;
+
   const options = [correctAnswer];
-  // makes 3 random incorrect answers
+
   while (options.length < 4) {
-    const random = allSigns[Math.floor(Math.random() * allSigns.length)].name;
+    const random =
+      allSigns[Math.floor(Math.random() * allSigns.length)].name;
+
     if (!options.includes(random)) {
       options.push(random);
     }
   }
-// shuffle options
+
   options.sort(() => Math.random() - 0.5);
 
   const container = document.getElementById("options");
@@ -123,18 +160,6 @@ function showOptions(correctAnswer) {
     `;
   });
 }
-// multiple choice selection 
-function selectOption(choice) {
-  if (choice === currentSign.name) {
-    document.getElementById("feedback").innerText = "Correct!";
-  } else {
-    document.getElementById("feedback").innerText =
-      "Wrong! Correct answer: " + currentSign.name;
-  }
 
-  setTimeout(() => {
-    nextSign();
-  }, 1000);
-}
 // loads first sign
 window.onload = pickRandom;
