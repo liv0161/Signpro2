@@ -9,39 +9,55 @@ function isUnlocked(index,user){
 }
 // pick rndom signs from unlcoked lessons
 function pickRandom() {
-  const users=JSON.parse(localStorage.getItem("users"))|| {};
+  const users = JSON.parse(localStorage.getItem("users")) || {};
   const currentUsername = localStorage.getItem("currentUser");
-  if (!currentUsename || !users[currentUsername]) {
+
+  if (!currentUsername || !users[currentUsername]) {
     document.getElementById("feedback").innerText = "No user found";
     return;
   }
+
   const user = users[currentUsername];
-  if (!user.progress) user.progress={};
-  // always have lesson 1
-  const unlockedLessons = lessons.filter((l,i) =>{
-    if (i===0) return true;
-    const prevLesson = lessons[i-1];
+  if (!user.progress) user.progress = {};
+
+  // Always start with lesson 1
+  let availableLessons = [lessons[0]];
+
+  // Unlock next lessons step by step
+  for (let i = 1; i < lessons.length; i++) {
+    const prevLesson = lessons[i - 1];
     const prevData = user.progress[prevLesson.id];
-    return prevData &&prevData.accuracy>= 70;
-  });
-    // dont let practice be empty
-  if (unlockedLessons.length===0){
-    unlockedLessons.push(lessons[0]);
+
+    if (prevData && prevData.accuracy >= 70) {
+      availableLessons.push(lessons[i]);
+    } else {
+      break; // stop unlocking further
+    }
   }
-  // pick random lesson
-  const lesson = 
-    unlockedLessons[Math.floor(Math.random()* unlockedLessons.length)];
-  currentLessonId= lesson.id;
-// pic random ign from tha lesson
-  const sign = 
-    lesson.signs[Math.floor(Math.random()* lesson.signs.length)];
+
+  //Pick random lesson
+  const lesson =
+    availableLessons[Math.floor(Math.random() * availableLessons.length)];
+
+  currentLessonId = lesson.id;
+
+  // Pick random sign
+  const sign =
+    lesson.signs[Math.floor(Math.random() * lesson.signs.length)];
+
   currentSign = sign;
+
+  // Load video properly
   const video = document.getElementById("video");
+
   video.pause();
   video.removeAttribute("src");
   video.load();
+
   video.src = sign.video;
   video.load();
+
+  // Show MCQ
   showOptions(sign.name);
 }
 // checks users typed answer
