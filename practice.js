@@ -37,10 +37,10 @@ function pickRandom() {
     lesson.signs[Math.floor(Math.random()* lesson.signs.length)];
   currentSign = sign;
   const video = document.getElementById("video");
-  video.src="";
-  video.src=sign.video;
+  video.innerHTML = `
+  <source src="${sign.video}" type="video/mp4">
+  `;
   video.load();
-  video.play().catch(()=>{});
   showOptions(sign.name);
 }
 // checks users typed answer
