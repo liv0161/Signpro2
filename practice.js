@@ -96,7 +96,14 @@ function selectOption(choice) {
 // update progress
 function updateProgress(correct) {
   const users = JSON.parse(localStorage.getItem("users")) || {};
-  const user = users[localStorage.getItem("currentUser")];
+  const currentUsername = localStorage.getItem("currentUser");
+
+  if (!currentUsername || !users[currentUsername]) {
+    console.log("No user → progress not saved");
+    return;
+  }
+
+  const user = users[currentUsername];
 
   if (!user.progress) user.progress = {};
 
@@ -122,7 +129,11 @@ function updateProgress(correct) {
 
   data.accuracy = Math.round((data.correct / data.total) * 100);
 
+  // save
+  users[currentUsername] = user;
   localStorage.setItem("users", JSON.stringify(users));
+
+  console.log("Updated progress:", user.progress);
 }
 
 // changes sign to next
