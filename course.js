@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const user = users[current];
 
-  // 🔥 SAFETY FIXES
+  // SAFETY FIXES
   if (!user) {
     container.innerText = "No user logged in";
     return;
