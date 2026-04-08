@@ -1,51 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
+const container = document.getElementById("lessons");
 
-  const container = document.getElementById("course");
+// get user
+const users = JSON.parse(localStorage.getItem("users")) || {};
+const currentUser = localStorage.getItem("currentUser") || "testUser";
+const user = users[currentUser] || { progress: {} };
 
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  const current = localStorage.getItem("currentUser");
+// unlock logic that matches practice
+function isUnlocked(index) {
+  if (index === 0) return true;
 
-  const user = users[current];
+  const prevLesson = lessons[index - 1];
+  const prevData = user.progress[prevLesson.id];
 
-  // SAFETY FIXES
-  if (!user) {
-    container.innerText = "No user logged in";
-    return;
-  }
+  return prevData && prevData.accuracy >= 70;
+}
 
-  if (!user.progress) {
-    user.progress = {};
-  }
+// render lessons
+lessons.forEach((lesson, index) => {
+  const unlocked = isUnlocked(index);
 
-  function unlocked(i) {
-    if (i === 0) return true;
-
-    const prev = lessons[i - 1];
-    const data = user.progress[prev.id];
-
-    return data && data.accuracy >= 70;
-  }
-
-  lessons.forEach((l, i) => {
-
-  const data = user.progress[l.id];
+  const data = user.progress[lesson.id];
   const accuracy = data ? data.accuracy : 0;
 
-  container.innerHTML += `
-    <div>
-      <h3>${l.title}</h3>
-      <p>Accuracy: ${accuracy}%</p>
-      <button onclick="startLesson('${l.id}')"
-        ${!unlocked(i) ? "disabled" : ""}>
-        ${unlocked(i) ? "Start" : "Locked"}
-      </button>
-    </div>
+  const lessonDiv = document.createElement("div");
+  lessonDiv.className = "lesson";
+
+  lessonDiv.innerHTML = `
+    <h3>${lesson.title}</h3>
+    <p>Accuracy: ${accuracy}%</p>
+    ${
+      unlocked
+        ? `<button onclick="startLesson('${lesson.id}')">Start</button>`
+        : `<button disabled>Locked 🔒</button>`
+    }
   `;
+
+  container.appendChild(lessonDiv);
 });
 
-});
-
+// start lesson
 function startLesson(id) {
-  localStorage.setItem("lesson", id);
-  window.location.href = "lesson.html";
+  window.location.href = `lesson.html?id=${id}`;
 }
