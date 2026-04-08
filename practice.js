@@ -1,3 +1,12 @@
+if (!localStorage.getItem("currentUser")){
+  localStorage.setItem("currentUser","testUser");
+}
+let users = JSON.parse(localStorage.getItem("users")) || {};
+if (!users["testUser"] = { 
+  users["testUser"]={progress: {}};
+  localStorage.setItem("users",JSON.stringify(users));
+}
+
 let currentSign;
 let currentLessonId;
 
@@ -89,21 +98,16 @@ function selectOption(choice) {
 
 // update progress
 function updateProgress(correct) {
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  const currentUsername = localStorage.getItem("currentUser");
-
-  if (!currentUsername) {
-    document.getElementById("feedback").innerText = "No user logged in";
-    return;
-  }
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+  let currentUsername = localStorage.getItem("currentUser")||"testUser";
+  
   if(!users[currentUsername]){
-    users[currentUsername] = {progress:{}};
+    users[currentUsername] = {progress:{} };
   }
-  const user = users[currentUsername];
-
+  let user = users[currentUsername];
   if (!user.progress) user.progress = {};
   if(!currentLessonId){
-    currentLessId = "lesson1";
+    currentLessonId = "lesson1";
   }
   if (!user.progress[currentLessonId]) {
     user.progress[currentLessonId] = {
@@ -113,7 +117,7 @@ function updateProgress(correct) {
     };
   }
 
-  const data = user.progress[currentLessonId];
+  let data = user.progress[currentLessonId];
 
   data.total++;
 
@@ -132,7 +136,9 @@ function updateProgress(correct) {
   localStorage.setItem("users", JSON.stringify(users));
 
   documment.getElementbyId("feedback").innerText+=
-    `(Accuracy: ${data.accuracy}%)`;
+    `| Accuracy: ${data.accuracy}%`;
+
+  console.log("Saved progress:", users);
 }
 
 // changes sign to next
