@@ -47,21 +47,15 @@ function pickRandom() {
 
 // separate load (bc it decided to stop working)
 function loadFromLesson(lesson) {
-  currentLessonId = lesson.id;
-
-  const sign =
-    lesson.signs[Math.floor(Math.random() * lesson.signs.length)];
-
-  currentSign = sign;
-
-  console.log("Loaded sign:", sign.name);
-
-  const video = document.getElementById("video");
-
-  if (!video) {
-    console.log("Video element missing");
+  if (!lesson) {
+    onsole.log("No lesson found");
     return;
   }
+  currentLessonId=lesson.id;
+  const sign=
+    lesson.signs[Math.floor(Math.random()* lesson.signs.length)];
+  currentSign=sign;
+  console.log("Lesson:", currentLessonId, "Sign:", sign.name);
 
   video.pause();
   video.removeAttribute("src");
@@ -98,15 +92,19 @@ function updateProgress(correct) {
   const users = JSON.parse(localStorage.getItem("users")) || {};
   const currentUsername = localStorage.getItem("currentUser");
 
-  if (!currentUsername || !users[currentUsername]) {
-    console.log("No user → progress not saved");
+  if (!currentUsername) {
+    document.getElementById("feedback").innerText = "No user logged in";
     return;
   }
-
+  if(!users[currentUsername]){
+    users[currentUsername] = {progress:{}};
+  }
   const user = users[currentUsername];
 
   if (!user.progress) user.progress = {};
-
+  if(!currentLessonId){
+    currentLessId = "lesson1";
+  }
   if (!user.progress[currentLessonId]) {
     user.progress[currentLessonId] = {
       correct: 0,
@@ -133,7 +131,8 @@ function updateProgress(correct) {
   users[currentUsername] = user;
   localStorage.setItem("users", JSON.stringify(users));
 
-  console.log("Updated progress:", user.progress);
+  documment.getElementbyId("feedback").innerText+=
+    `(Accuracy: ${data.accuracy}%)`;
 }
 
 // changes sign to next
