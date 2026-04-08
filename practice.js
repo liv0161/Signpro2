@@ -1,181 +1,249 @@
-if (!localStorage.getItem("currentUser")){
-  localStorage.setItem("currentUser","testUser");
-}
-let users = JSON.parse(localStorage.getItem("users")) || {};
-if (!users["testUser"] = { 
-  users["testUser"]={progress: {}};
-  localStorage.setItem("users",JSON.stringify(users));
-}
+const video = document.getElementById("practiceVideo");
+const question = document.getElementById("question");
+const feedback = document.getElementById("feedback");
 
-let currentSign;
-let currentLessonId;
+const users = JSON.parse(localStorage.getItem("users")) || {};
+const currentUser = localStorage.getItem("currentUser") || "testUser";
 
-function pickRandom() {
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  const currentUsername = localStorage.getItem("currentUser");
-
-  if (!currentUsername || !users[currentUsername]) {
-    console.log("No user found → using lesson 1");
-    loadFromLesson(lessons[0]);
-    return;
-  }
-
-  const user = users[currentUsername];
-  if (!user.progress) user.progress = {};
-
-  // check for unlocked lessons
-  let availableLessons = [];
-
-  for (let i = 0; i < lessons.length; i++) {
-    if (i === 0) {
-      availableLessons.push(lessons[i]);
-    } else {
-      const prev = lessons[i - 1];
-      const data = user.progress[prev.id];
-
-      if (data && data.accuracy >= 70) {
-        availableLessons.push(lessons[i]);
-      } else {
-        break;
-      }
-    }
-  }
-
- 
-  if (availableLessons.length === 0) {
-    console.log("Fallback triggered → lesson 1");
-    loadFromLesson(lessons[0]);
-    return;
-  }
-
-  const lesson =
-    availableLessons[Math.floor(Math.random() * availableLessons.length)];
-
-  loadFromLesson(lesson);
+if (!users[currentUser]) {
+  users[currentUser] = { progress: {} };
 }
 
-// separate load (bc it decided to stop working)
-function loadFromLesson(lesson) {
-  if (!lesson) {
-    onsole.log("No lesson found");
-    return;
-  }
-  currentLessonId=lesson.id;
-  const sign=
-    lesson.signs[Math.floor(Math.random()* lesson.signs.length)];
-  currentSign=sign;
-  console.log("Lesson:", currentLessonId, "Sign:", sign.name);
+const user = users[currentUser];
 
-  video.pause();
-  video.removeAttribute("src");
-  video.load();
+// unlock logic that matches course.js
+function isUnlocked(index) {
+  if (index === 0) return true;
 
-  video.src = sign.video;
-  video.load();
+  const prevLesson = lessons[index - 1];
+  const prevData = user.progress[prevLesson.id];
 
-  showOptions(sign.name);
+  return prevData && prevData.accuracy >= 70;
 }
 
-// checks user's typed answer
-function checkAnswer() {
-  const input = document.getElementById("answer").value.toLowerCase();
-  if (!currentSign) return;
+// get unlocked lessons
+const unlockedLessons = lessons.filter((lesson, index) =>
+  isUnlocked(index)
+);
 
-  updateProgress(input === currentSign.name.toLowerCase());
-  document.getElementById("answer").value = "";
+if (unlockedLessons.length === 0) {
+  feedback.textContent = "No unlocked lessons yet!";
 }
 
-// mcq
-function selectOption(choice) {
-  if (!currentSign) return;
+// pick a random lesson & sign
+let currentLesson =
+  unlockedLessons[Math.floor(Math.random() * unlockedLessons.length)];
 
-  updateProgress(choice === currentSign.name);
+let currentSign =
+  currentLesson.signs[Math.floor(Math.random() * currentLesson.signs.length)];
 
-  setTimeout(() => {
-    nextSign();
-  }, 1000);
-}
+// load video
+video.src = currentSign.video;
+video.load();
+video.play().catch(() => {});
 
-// update progress
-function updateProgress(correct) {
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-  let currentUsername = localStorage.getItem("currentUser")||"testUser";
-  
-  if(!users[currentUsername]){
-    users[currentUsername] = {progress:{} };
-  }
-  let user = users[currentUsername];
-  if (!user.progress) user.progress = {};
-  if(!currentLessonId){
-    currentLessonId = "lesson1";
-  }
-  if (!user.progress[currentLessonId]) {
-    user.progress[currentLessonId] = {
-      correct: 0,
-      total: 0,
-      accuracy: 0
-    };
-  }
+// create question
+function loadQuestion() {
+  question.innerHTML = "";
 
-  let data = user.progress[currentLessonId];
-
-  data.total++;
-
-  if (correct) {
-    data.correct++;
-    document.getElementById("feedback").innerText = "Correct!";
-  } else {
-    document.getElementById("feedback").innerText =
-      "Wrong! Correct answer: " + currentSign.name;
-  }
-
-  data.accuracy = Math.round((data.correct / data.total) * 100);
-
-  // save
-  users[currentUsername] = user;
-  localStorage.setItem("users", JSON.stringify(users));
-
-  documment.getElementbyId("feedback").innerText+=
-    `| Accuracy: ${data.accuracy}%`;
-
-  console.log("Saved progress:", users);
-}
-
-// changes sign to next
-function nextSign() {
-  document.getElementById("feedback").innerText = "";
-  document.getElementById("answer").value = "";
-  pickRandom();
-}
-
-// mcq options
-function showOptions(correctAnswer) {
-  const allSigns = lessons.flatMap(l => l.signs);
-
-  if (!allSigns.length) return;
+  const correctAnswer = currentSign.name;
 
   const options = [correctAnswer];
 
+  // add random wrong answers
   while (options.length < 4) {
-    const random =
-      allSigns[Math.floor(Math.random() * allSigns.length)].name;
+    const randomLesson =
+      lessons[Math.floor(Math.random() * lessons.length)];
+    const randomSign =
+      randomLesson.signs[
+        Math.floor(Math.random() * randomLesson.signs.length)
+      ];
 
-    if (!options.includes(random)) {
-      options.push(random);
+    if (!options.includes(randomSign.name)) {
+      options.push(randomSign.name);
     }
   }
 
   options.sort(() => Math.random() - 0.5);
 
-  const container = document.getElementById("options");
-  container.innerHTML = "";
+  options.forEach((option) => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
 
-  options.forEach(opt => {
-    container.innerHTML += `
-      <button onclick="selectOption('${opt}')">${opt}</button>
-    `;
+    btn.onclick = () => checkAnswer(option, correctAnswer);
+
+    question.appendChild(btn);
   });
 }
 
-// loads first sign
-window.onload = pickRandom;
+// update accuracy
+let correct = 0;
+let total = 0;
+
+function checkAnswer(selected, correctAnswer) {
+  total++;
+
+  if (selected === correctAnswer) {
+    correct++;
+    feedback.textContent = "Correct!";
+  } else {
+    feedback.textContent = `Wrong! Answer: ${correctAnswer}`;
+  }
+
+  const accuracy = Math.round((correct / total) * 100);
+
+  feedback.textContent += ` | Accuracy: ${accuracy}%`;
+
+  // const video = document.getElementById("practiceVideo");
+const question = document.getElementById("question");
+const feedback = document.getElementById("feedback");
+
+const users = JSON.parse(localStorage.getItem("users")) || {};
+const currentUser = localStorage.getItem("currentUser") || "testUser";
+
+if (!users[currentUser]) {
+  users[currentUser] = { progress: {} };
+}
+
+const user = users[currentUser];
+
+// 🔓 Unlock logic (same as course.js)
+function isUnlocked(index) {
+  if (index === 0) return true;
+
+  const prevLesson = lessons[index - 1];
+  const prevData = user.progress[prevLesson.id];
+
+  return prevData && prevData.accuracy >= 70;
+}
+
+// 🧠 GET ONLY UNLOCKED LESSONS
+const unlockedLessons = lessons.filter((lesson, index) =>
+  isUnlocked(index)
+);
+
+// 🚨 SAFETY CHECK
+if (unlockedLessons.length === 0) {
+  feedback.textContent = "No unlocked lessons yet!";
+}
+
+// 🎯 PICK RANDOM LESSON + SIGN
+let currentLesson =
+  unlockedLessons[Math.floor(Math.random() * unlockedLessons.length)];
+
+let currentSign =
+  currentLesson.signs[Math.floor(Math.random() * currentLesson.signs.length)];
+
+// ▶️ LOAD VIDEO
+video.src = currentSign.video;
+video.load();
+video.play().catch(() => {});
+
+// ❓ CREATE QUESTION
+function loadQuestion() {
+  question.innerHTML = "";
+
+  const correctAnswer = currentSign.name;
+
+  const options = [correctAnswer];
+
+  // add random wrong answers
+  while (options.length < 4) {
+    const randomLesson =
+      lessons[Math.floor(Math.random() * lessons.length)];
+    const randomSign =
+      randomLesson.signs[
+        Math.floor(Math.random() * randomLesson.signs.length)
+      ];
+
+    if (!options.includes(randomSign.name)) {
+      options.push(randomSign.name);
+    }
+  }
+
+  options.sort(() => Math.random() - 0.5);
+
+  options.forEach((option) => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+
+    btn.onclick = () => checkAnswer(option, correctAnswer);
+
+    question.appendChild(btn);
+  });
+}
+
+// 📊 TRACK ACCURACY
+let correct = 0;
+let total = 0;
+
+function checkAnswer(selected, correctAnswer) {
+  total++;
+
+  if (selected === correctAnswer) {
+    correct++;
+    feedback.textContent = "Correct!";
+  } else {
+    feedback.textContent = `Wrong! Answer: ${correctAnswer}`;
+  }
+
+  const accuracy = Math.round((correct / total) * 100);
+
+  feedback.textContent += ` | Accuracy: ${accuracy}%`;
+
+  // update lesson progress
+  user.progress[currentLesson.id] = {
+    accuracy: accuracy,
+  };
+
+  localStorage.setItem("users", JSON.stringify(users));
+
+  // load next sign
+  nextQuestion();
+}
+
+function nextQuestion() {
+  currentLesson =
+    unlockedLessons[Math.floor(Math.random() * unlockedLessons.length)];
+
+  currentSign =
+    currentLesson.signs[
+      Math.floor(Math.random() * currentLesson.signs.length)
+    ];
+
+  video.src = currentSign.video;
+  video.load();
+  video.play().catch(() => {});
+
+  loadQuestion();
+}
+
+
+loadQuestion();
+  user.progress[currentLesson.id] = {
+    accuracy: accuracy,
+  };
+
+  localStorage.setItem("users", JSON.stringify(users));
+
+  // load next sign
+  nextQuestion();
+}
+
+function nextQuestion() {
+  currentLesson =
+    unlockedLessons[Math.floor(Math.random() * unlockedLessons.length)];
+
+  currentSign =
+    currentLesson.signs[
+      Math.floor(Math.random() * currentLesson.signs.length)
+    ];
+
+  video.src = currentSign.video;
+  video.load();
+  video.play().catch(() => {});
+
+  loadQuestion();
+}
+
+loadQuestion();
