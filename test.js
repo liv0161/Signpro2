@@ -6,12 +6,12 @@ const users = JSON.parse(localStorage.getItem("users")) || {};
 const currentUser = localStorage.getItem("currentUser") || "testUser";
 
 if (!users[currentUser]) {
-  users[currentUser] = { progress: {}, stats: {} };
+  users[currentUser] = { progress: {} };
 }
 
 const user = users[currentUser];
 
-// unlock logic that matches course.js
+// unlock logic
 function isUnlocked(index) {
   if (index === 0) return true;
 
@@ -21,14 +21,13 @@ function isUnlocked(index) {
 
 const unlockedLessons = lessons.filter((l, i) => isUnlocked(i));
 
-
 const TOTAL_QUESTIONS = 10;
 
 let currentSign;
 let questionNumber = 0;
 let correct = 0;
 
-// load sign
+//  load sign
 function loadSign() {
   const lesson =
     unlockedLessons[Math.floor(Math.random() * unlockedLessons.length)];
@@ -40,7 +39,7 @@ function loadSign() {
   video.load();
 }
 
-//  question
+//  load question
 function loadQuestion() {
   questionDiv.innerHTML = "";
 
@@ -70,7 +69,7 @@ function loadQuestion() {
   });
 }
 
-// check
+// check answer
 function checkAnswer(selected, correctAnswer) {
   questionNumber++;
 
@@ -81,28 +80,23 @@ function checkAnswer(selected, correctAnswer) {
     feedback.textContent = `Incorrect. Answer: ${correctAnswer}`;
   }
 
-  setTimeout(() => {
-    if (questionNumber < TOTAL_QUESTIONS) {
-      loadNext();
-    } else {
-      finishTest();
-    }
-  }, 1000);
+  // end test
+  if (questionNumber >= TOTAL_QUESTIONS) {
+    setTimeout(finishTest, 1000);
+  } else {
+    setTimeout(() => {
+      feedback.textContent = "";
+      loadSign();
+      loadQuestion();
+    }, 1000);
+  }
 }
 
-// next
-function loadNext() {
-  feedback.textContent = "";
-  loadSign();
-  loadQuestion();
-}
 
-// finish
 function finishTest() {
   const score = Math.round((correct / TOTAL_QUESTIONS) * 100);
 
   feedback.textContent = `Final Score: ${score}%`;
-
 
   const currentLessonIndex = unlockedLessons.length - 1;
   const currentLesson = lessons[currentLessonIndex];
@@ -120,9 +114,10 @@ function finishTest() {
   }
 }
 
-// start
+// strt test
 if (unlockedLessons.length > 0) {
-  loadNext();
+  loadSign();
+  loadQuestion();
 } else {
   feedback.textContent = "No lessons unlocked.";
 }
