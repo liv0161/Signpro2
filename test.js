@@ -76,9 +76,9 @@ function checkAnswer(selected, correctAnswer) {
 
   if (selected === correctAnswer) {
     correct++;
-    feedback.textContent = "✅ Correct!";
+    feedback.textContent = "Correct!";
   } else {
-    feedback.textContent = `❌ Wrong! Answer: ${correctAnswer}`;
+    feedback.textContent = `Incorrect. Answer: ${correctAnswer}`;
   }
 
   setTimeout(() => {
@@ -103,19 +103,20 @@ function finishTest() {
 
   feedback.textContent = `Final Score: ${score}%`;
 
-  // updae progress
-  const lastLesson = unlockedLessons[unlockedLessons.length - 1];
 
-  user.progress[lastLesson.id] = {
+  const currentLessonIndex = unlockedLessons.length - 1;
+  const currentLesson = lessons[currentLessonIndex];
+
+  user.progress[currentLesson.id] = {
     score: score
   };
 
   localStorage.setItem("users", JSON.stringify(users));
 
   if (score >= 70) {
-    feedback.textContent += " 🎉 Next lesson unlocked!";
+    feedback.textContent += "Next lesson unlocked!";
   } else {
-    feedback.textContent += " ❗ Try again to unlock next lesson.";
+    feedback.textContent += "Try again.";
   }
 }
 
