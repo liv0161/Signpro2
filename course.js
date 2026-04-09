@@ -11,8 +11,9 @@ if (!lessons || lessons.length === 0) {
   const currentUser = localStorage.getItem("currentUser") || "testUser";
 
   if (!users[currentUser]) {
-    users[currentUser] = { progress: {} };
-  }
+  users[currentUser] = { progress: {} };
+  localStorage.setItem("users", JSON.stringify(users));
+}
 
   const user = users[currentUser];
 
