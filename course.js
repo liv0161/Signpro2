@@ -8,12 +8,9 @@ const user = users[currentUser] || { progress: {} };
 function isUnlocked(index) {
   if (index === 0) return true;
 
-  const prevLesson = lessons[index - 1];
-  const prev = user.progress[prevLesson.id];
-
-  return prev && prev.accuracy >= 70;
+  const prev = user.progress[lessons[index - 1].id];
+  return prev && prev.score >= 70;
 }
-
 lessons.forEach((lesson, index) => {
   const div = document.createElement("div");
 
