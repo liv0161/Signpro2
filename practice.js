@@ -29,9 +29,9 @@ const unlockedLessons = lessons.filter((lesson, index) =>
 let currentLesson;
 let currentSign;
 
-let correct = 0;
-let total = 0;
-
+if (!user.stats){
+  user.stats = {};
+}
 // load sign
 function loadSign() {
   currentLesson =
@@ -103,32 +103,61 @@ function loadQuestion() {
 
 // check answer
 function checkAnswer(selected, correctAnswer) {
-  total++;
-
-  if (selected.toLowerCase() === correctAnswer.toLowerCase()) {
-    correct++;
-    feedback.textContent = "Correct!";
-  } else {
-    feedback.textContent = `Incorrect the sign is: ${correctAnswer}`;
+  if (!user.stats[currentLesson.id]) {
+    user.stats[currentLesson.id] = {
+      correct: 0,
+      total: 0,
+      weakSigns: {}
+    };
   }
 
-  const accuracy = Math.round((correct / total) * 100);
+  const stats = user.stats[currentLesson.id];
+
+  stats.total++;
+
+  if (selected.toLowerCase() === correctAnswer.toLowerCase()) {
+    stats.correct++;
+    feedback.textContent = "Correct!";
+
+    // remove sign from weak if improving
+    if (stats.weakSigns[currentSign.name]) {
+      stats.weakSigns[currentSign.name].correctStreak++;
+
+      if (stats.weakSigns[currentSign.name].correctStreak >= 3) {
+        delete stats.weakSigns[currentSign.name];
+      }
+    }
+
+  } else {
+    feedback.textContent = `Incorrect. Answer: ${correctAnswer}`;
+
+    // add to weak signs
+    if (!stats.weakSigns[currentSign.name]) {
+      stats.weakSigns[currentSign.name] = {
+        wrong: 0,
+        correctStreak: 0
+      };
+    }
+
+    stats.weakSigns[currentSign.name].wrong++;
+    stats.weakSigns[currentSign.name].correctStreak = 0;
+  }
+
+  const accuracy = Math.round((stats.correct / stats.total) * 100);
 
   feedback.textContent += ` | Accuracy: ${accuracy}%`;
 
-  // save progress
+  // update progress on main page 
   user.progress[currentLesson.id] = {
-    accuracy: accuracy,
+    accuracy: accuracy
   };
 
   localStorage.setItem("users", JSON.stringify(users));
 
-  // change sign
   setTimeout(() => {
     loadNext();
   }, 1500);
 }
-
 // next sign
 function loadNext() {
   feedback.textContent = "";
