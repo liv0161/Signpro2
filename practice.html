@@ -1,31 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Practice</title>
 </head>
 <body>
 
-<h2>Practice</h2>
+<h1>Practice</h1>
 
-<video id="video" controls width="300"></video>
+<div> 
+  <video id="practiceVideo" width="300" height="240" controls autoplay></video>
+</div>
+<div id="question"></div>
+<p id="feedback"></p>
+<button onclick="nextQuestion()">Next</button>
 
-<br><br>
-<input id="answer" placeholder = "Type the sign name">
-<br><br>
-<button onclick="checkAnswer()">Submit</button>
-<p id= "feedback"></p>  
-  
-<div id = "options"></div>
-  
-<button onclick="nextSign()">Next</button>
-
-
-  
-<button onclick="location.href='progress.html'">View progress</button>
-<button onclick="location.href='course.html'">Go back to lessons</button>
-
-<script src="./data.js"></script>
-<script src="./practice.js"></script>
-
+<script src="data.js"></script>
+<script src="practice.js"></script>
 </body>
 </html>
