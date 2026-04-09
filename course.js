@@ -40,3 +40,4 @@ if (!lessons || lessons.length === 0) {
     lessonsContainer.appendChild(div);
   });
 }
+alert(lessons.length);
