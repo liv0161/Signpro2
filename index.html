@@ -18,7 +18,13 @@
 <input id="loginEmail" placeholder="Email">
 <input id="loginPassword" type="password" placeholder="Password">
 <button onclick="login()">Login</button>
-
+<button onclick = "resetProgress()">Reset Progress</button>
+<script>
+function resetProgress(){
+  localStorage.clear();
+  alert("Progress reset.");
+}
+</script>
 <script src="auth.js"></script>
 
 </body>
