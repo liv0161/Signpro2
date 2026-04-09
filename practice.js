@@ -36,12 +36,25 @@ if (!user.stats){
 function loadSign() {
   currentLesson =
     unlockedLessons[Math.floor(Math.random() * unlockedLessons.length)];
+  const stats = user.stats?.[currentLesson.id];
+  let useWeak = false;
+  if (stats && Object.keys(stats.weakSigns).length > 0) {
+    useWeak = Math.random() < 0.6; // 60% chance
+  }
+  if (useWeak) {
+    const weakNames = Object.keys(stats.weakSigns);
+    const weakName =
+      weakNames[Math.floor(Math.random() * weakNames.length)];
 
-  currentSign =
-    currentLesson.signs[
-      Math.floor(Math.random() * currentLesson.signs.length)
-    ];
-
+    currentSign = currentLesson.signs.find(
+      (s) => s.name === weakName
+    );
+  } else {
+    currentSign =
+      currentLesson.signs[
+        Math.floor(Math.random() * currentLesson.signs.length)
+      ];
+  }
   video.src = currentSign.video;
   video.load();
   video.play().catch(() => {});
