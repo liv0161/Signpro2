@@ -1,77 +1,42 @@
 const lessonsContainer = document.getElementById("lessons");
 
-const users = JSON.parse(localStorage.getItem("users")) || {};
-const currentUser = localStorage.getItem("currentUser") || "testUser";
+// debug
+console.log("LESSONS:", lessons);
 
-const user = users[currentUser] || { progress: {} };
+if (!lessons || lessons.length === 0) {
+  lessonsContainer.innerHTML = "<p>No lessons found.</p>";
+} else {
 
+  const users = JSON.parse(localStorage.getItem("users")) || {};
+  const currentUser = localStorage.getItem("currentUser") || "testUser";
 
-function isUnlocked(index) {
-  if (index === 0) return true;
+  if (!users[currentUser]) {
+    users[currentUser] = { progress: {} };
+  }
 
-  const prevLesson = lessons[index - 1];
-  const prev = user.progress[prevLesson.id];
+  const user = users[currentUser];
 
-  return prev && prev.score >= 70;
-}
+  function isUnlocked(index) {
+    if (index === 0) return true;
 
+    const prev = user.progress[lessons[index - 1].id];
+    return prev && prev.score >= 70;
+  }
 
-lessons.forEach((lesson, index) => {
-  const div = document.createElement("div");
+  lessons.forEach((lesson, index) => {
+    const div = document.createElement("div");
 
-  const unlocked = isUnlocked(index);
-  const score = user.progress[lesson.id]?.score ?? 0;
+    const unlocked = isUnlocked(index);
+    const score = user.progress[lesson.id]?.score ?? 0;
 
-  div.innerHTML = `
-    <h3>${lesson.title}</h3>
-    <p>Score: ${score}%</p>
-    <button ${!unlocked ? "disabled" : ""} 
-      onclick="startLesson('${lesson.id}')">
-      ${unlocked ? "Start" : "Locked"}
-    </button>
-  `;
+    div.innerHTML = `
+      <h3>${lesson.title}</h3>
+      <p>Score: ${score}%</p>
+      <button ${!unlocked ? "disabled" : ""}>
+        ${unlocked ? "Start" : "Locked"}
+      </button>
+    `;
 
-  lessonsContainer.appendChild(div);
-});
-
-function startLesson(id) {
-  window.location.href = `lesson.html?id=${id}`;
-}const lessonsContainer = document.getElementById("lessons");
-
-const users = JSON.parse(localStorage.getItem("users")) || {};
-const currentUser = localStorage.getItem("currentUser") || "testUser";
-
-const user = users[currentUser] || { progress: {} };
-
-
-function isUnlocked(index) {
-  if (index === 0) return true;
-
-  const prevLesson = lessons[index - 1];
-  const prev = user.progress[prevLesson.id];
-
-  return prev && prev.score >= 70;
-}
-
-
-lessons.forEach((lesson, index) => {
-  const div = document.createElement("div");
-
-  const unlocked = isUnlocked(index);
-  const score = user.progress[lesson.id]?.score ?? 0;
-
-  div.innerHTML = `
-    <h3>${lesson.title}</h3>
-    <p>Score: ${score}%</p>
-    <button ${!unlocked ? "disabled" : ""} 
-      onclick="startLesson('${lesson.id}')">
-      ${unlocked ? "Start" : "Locked"}
-    </button>
-  `;
-
-  lessonsContainer.appendChild(div);
-});
-
-function startLesson(id) {
-  window.location.href = `lesson.html?id=${id}`;
+    lessonsContainer.appendChild(div);
+  });
 }
