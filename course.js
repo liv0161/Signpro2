@@ -1,4 +1,4 @@
-const container = document.getElementById("lessons");
+let users = JSON.parse(localStorage.getItem("users")) || {};
 
 // get storage
 let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -26,7 +26,6 @@ function isUnlocked(index) {
 
   return user.progress[prevLesson.id].score >= 70;
 }
-
 
 container.innerHTML = "";
 
