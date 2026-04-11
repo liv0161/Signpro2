@@ -1,44 +1,65 @@
-const lessonsContainer = document.getElementById("lessons");
+const container = document.getElementById("lessons");
 
-// debug
-console.log("LESSONS:", lessons);
+// get storage
+let users = JSON.parse(localStorage.getItem("users")) || {};
+const currentUser = "user1";
 
-if (!lessons || lessons.length === 0) {
-  lessonsContainer.innerHTML = "<p>No lessons found.</p>";
-} else {
-
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  const currentUser = localStorage.getItem("currentUser") || "testUser";
-
-  if (!users[currentUser]) {
+// ensure user exists
+if (!users[currentUser]) {
   users[currentUser] = { progress: {} };
-  localStorage.setItem("users", JSON.stringify(users));
 }
 
-  const user = users[currentUser];
+// ensure progress exists
+if (!users[currentUser].progress) {
+  users[currentUser].progress = {};
+}
 
-  function isUnlocked(index) {
-    if (index === 0) return true;
+const user = users[currentUser];
 
-    const prev = user.progress[lessons[index - 1].id];
-    return prev && prev.score >= 70;
-  }
+// unlock logic
+function isUnlocked(index) {
+  if (index === 0) return true;
 
-  lessons.forEach((lesson, index) => {
+  const prevLesson = lessons[index - 1];
+
+  if (!user.progress[prevLesson.id]) return false;
+
+  return user.progress[prevLesson.id].score >= 70;
+}
+
+
+container.innerHTML = "";
+
+// render lessons SAFELY
+lessons.forEach((lesson, index) => {
+  try {
     const div = document.createElement("div");
 
     const unlocked = isUnlocked(index);
-    const score = user.progress[lesson.id]?.score ?? 0;
+
+    const score = user.progress[lesson.id]
+      ? user.progress[lesson.id].score
+      : 0;
 
     div.innerHTML = `
       <h3>${lesson.title}</h3>
       <p>Score: ${score}%</p>
-      <button ${!unlocked ? "disabled" : ""}>
+      <button ${!unlocked ? "disabled" : ""} onclick="startLesson('${lesson.id}')">
         ${unlocked ? "Start" : "Locked"}
       </button>
     `;
 
-    lessonsContainer.appendChild(div);
-  });
+    container.appendChild(div);
+
+  } catch (err) {
+    console.log("Error rendering lesson:", lesson, err);
+  }
+});
+
+// navigation
+function startLesson(id) {
+  window.location.href = "lesson.html?id=" + id;
 }
-alert(lessons.length);
+
+// save back
+localStorage.setItem("users", JSON.stringify(users));
