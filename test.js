@@ -93,27 +93,37 @@ function checkAnswer(selected, correctAnswer) {
 }
 
 
-function finishTest() {
-  const score = Math.round((correct / TOTAL_QUESTIONS) * 100);
+function finish() {
+  const score = Math.round((correct / TOTAL) * 100);
 
-  feedback.textContent = `Final Score: ${score}%`;
+  feedback.textContent = "Final Score: " + score + "%";
 
-  const currentLessonIndex = unlockedLessons.length - 1;
-  const currentLesson = lessons[currentLessonIndex];
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+  const currentUser = "user1";
+
+  if (!users[currentUser]) {
+    users[currentUser] = { progress: {} };
+  }
+
+  if (!users[currentUser].progress) {
+    users[currentUser].progress = {};
+  }
+
+  const user = users[currentUser];
+
+// update current lesson
+  const unlocked = getUnlockedLessons();
+  const currentLesson = unlocked[unlocked.length - 1];
 
   user.progress[currentLesson.id] = {
     score: score
   };
 
+  // save&update
   localStorage.setItem("users", JSON.stringify(users));
 
-  if (score >= 70) {
-    feedback.textContent += "Next lesson unlocked!";
-  } else {
-    feedback.textContent += "Try again.";
-  }
+  console.log("Saved progress:", users); // debug
 }
-
 // strt test
 if (unlockedLessons.length > 0) {
   loadSign();
