@@ -28,17 +28,22 @@ function loadSign() {
 
 function nextSign() {
   index++;
-  //end of lesson
+
   if (index >= lesson.signs.length) {
-    alert("Lesson complete!");
-    // go back to course page
-    window.location.href = "course.html";
+    document.body.innerHTML = `
+      <h1>Lesson Complete!</h1>
+      <button onclick="window.location.href='test.html'">
+        Take Test
+      </button>
+      <button onclick="window.location.href='course.html'">
+        Back to Course
+      </button>
+    `;
     return;
   }
 
   loadSign();
-}
-function goBack() {
+}function goBack() {
   window.location.href = "course.html";
 }
 
