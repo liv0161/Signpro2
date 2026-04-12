@@ -1,25 +1,34 @@
-const lesson = lessons[0];
+const video = document.getElementById("video");
+const label = document.getElementById("label");
 
-let i = 0;
+const params = new URLSearchParams(window.location.search);
+const lessonId = params.get("id");
 
-function load() {
-  const sign = lesson.signs[i];
+console.log("Lesson ID from URL:", lessonId);
 
-  document.getElementById("lessonTitle").innerText = lesson.title;
-  document.getElementById("counter").innerText = (i + 1) + "/" + lesson.signs.length;
-  document.getElementById("name").innerText = sign.name;
+// find lesson
+let lesson = lessons.find(l => l.id === lessonId);
 
-  document.getElementById("video").src = sign.video;
+// fallback
+if (!lesson) {
+  console.log("Lesson not found, defaulting to lesson1");
+  lesson = lessons[0];
 }
 
-function next() {
-  i++;
+let index = 0;
 
-  if (i < lesson.signs.length) {
-    load();
-  } else {
-    alert("Finished!");
-  }
+function loadSign() {
+  const sign = lesson.signs[index];
+
+  video.src = sign.video;
+  label.textContent = sign.name;
 }
 
-load();
+function nextSign() {
+  index++;
+  if (index >= lesson.signs.length) index = 0;
+  loadSign();
+}
+
+// start
+loadSign();
