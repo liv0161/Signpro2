@@ -1,105 +1,108 @@
-const video = document.getElementById("testVideo");
-const questionDiv = document.getElementById("question");
+const video = document.getElementById("video");
+const optionsDiv = document.getElementById("options");
 const feedback = document.getElementById("feedback");
 
-const users = JSON.parse(localStorage.getItem("users")) || {};
-const currentUser = localStorage.getItem("currentUser") || "testUser";
+// load user data
+let users = JSON.parse(localStorage.getItem("users")) || {};
+const currentUser = "user1";
 
 if (!users[currentUser]) {
   users[currentUser] = { progress: {} };
 }
 
+if (!users[currentUser].progress) {
+  users[currentUser].progress = {};
+}
+
 const user = users[currentUser];
 
-// unlock logic
-function isUnlocked(index) {
-  if (index === 0) return true;
-
-  const prev = user.progress[lessons[index - 1].id];
-  return prev && prev.score >= 70;
-}
-
-const unlockedLessons = lessons.filter((l, i) => isUnlocked(i));
-
-const TOTAL_QUESTIONS = 10;
+let question = 0;
+let correct = 0;
+const TOTAL = 5;
 
 let currentSign;
-let questionNumber = 0;
-let correct = 0;
+let currentLesson; // track lesson
 
-//  load sign
-function loadSign() {
-  const lesson =
-    unlockedLessons[Math.floor(Math.random() * unlockedLessons.length)];
+// get unlocked lessons
+function getUnlockedLessons() {
+  return lessons.filter((lesson, index) => {
+    if (index === 0) return true;
 
-  currentSign =
-    lesson.signs[Math.floor(Math.random() * lesson.signs.length)];
-
-  video.src = currentSign.video;
-  video.load();
-}
-
-//  load question
-function loadQuestion() {
-  questionDiv.innerHTML = "";
-
-  const correctAnswer = currentSign.name;
-  const options = [correctAnswer];
-
-  while (options.length < 4) {
-    const randLesson =
-      lessons[Math.floor(Math.random() * lessons.length)];
-    const randSign =
-      randLesson.signs[Math.floor(Math.random() * randLesson.signs.length)];
-
-    if (!options.includes(randSign.name)) {
-      options.push(randSign.name);
-    }
-  }
-
-  options.sort(() => Math.random() - 0.5);
-
-  options.forEach((opt) => {
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-
-    btn.onclick = () => checkAnswer(opt, correctAnswer);
-
-    questionDiv.appendChild(btn);
+    const prev = user.progress[lessons[index - 1].id];
+    return prev && prev.score >= 70;
   });
 }
 
-// check answer
-function checkAnswer(selected, correctAnswer) {
-  questionNumber++;
+function loadQuestion() {
+  const unlocked = getUnlockedLessons();
 
-  if (selected === correctAnswer) {
-    correct++;
-    feedback.textContent = "Correct!";
-  } else {
-    feedback.textContent = `Incorrect. Answer: ${correctAnswer}`;
+  // pick a lesson
+  if (!currentLesson) {
+    currentLesson = unlocked[unlocked.length - 1];
   }
 
-  // end test
-  if (questionNumber >= TOTAL_QUESTIONS) {
-    setTimeout(finishTest, 1000);
-  } else {
-    setTimeout(() => {
-      feedback.textContent = "";
-      loadSign();
-      loadQuestion();
-    }, 1000);
+  currentSign =
+    currentLesson.signs[
+      Math.floor(Math.random() * currentLesson.signs.length)
+    ];
+
+  video.src = currentSign.video;
+
+  optionsDiv.innerHTML = "";
+
+  const answers = [currentSign.name];
+
+  while (answers.length < 4) {
+    const randLesson =
+      lessons[Math.floor(Math.random() * lessons.length)];
+    const randSign =
+      randLesson.signs[
+        Math.floor(Math.random() * randLesson.signs.length)
+      ];
+
+    if (!answers.includes(randSign.name)) {
+      answers.push(randSign.name);
+    }
   }
+
+  answers.sort(() => Math.random() - 0.5);
+
+  answers.forEach(ans => {
+    const btn = document.createElement("button");
+    btn.textContent = ans;
+    btn.onclick = () => check(ans);
+    optionsDiv.appendChild(btn);
+  });
 }
 
+function check(answer) {
+  question++;
+
+  if (answer === currentSign.name) {
+    correct++;
+    feedback.textContent = "Correct";
+  } else {
+    feedback.textContent = "Wrong";
+  }
+
+  if (question >= TOTAL) {
+    finish();
+  } else {
+    setTimeout(loadQuestion, 800);
+  }
+}
 
 function finish() {
   const score = Math.round((correct / TOTAL) * 100);
 
-  feedback.textContent = "Final Score: " + score + "%";
+  // show score
+  feedback.innerHTML = `
+    <h2>Final Score: ${score}%</h2>
+    <p>${score >= 70 ? "Lesson Passed 🎉" : "Try Again"}</p>
+  `;
 
+  // reload users
   let users = JSON.parse(localStorage.getItem("users")) || {};
-  const currentUser = "user1";
 
   if (!users[currentUser]) {
     users[currentUser] = { progress: {} };
@@ -109,25 +112,16 @@ function finish() {
     users[currentUser].progress = {};
   }
 
-  const user = users[currentUser];
-
-// update current lesson
-  const unlocked = getUnlockedLessons();
-  const currentLesson = unlocked[unlocked.length - 1];
-
-  user.progress[currentLesson.id] = {
+  // save score to lesson
+  users[currentUser].progress[currentLesson.id] = {
     score: score
   };
 
-  // save&update
+  // save
   localStorage.setItem("users", JSON.stringify(users));
 
-  console.log("Saved progress:", users); // debug
+  console.log("Saved progress:", users);
 }
-// strt test
-if (unlockedLessons.length > 0) {
-  loadSign();
-  loadQuestion();
-} else {
-  feedback.textContent = "No lessons unlocked.";
-}
+
+// start
+loadQuestion();
