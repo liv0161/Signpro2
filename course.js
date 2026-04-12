@@ -1,3 +1,4 @@
+alert("course.js is running");
 let users = JSON.parse(localStorage.getItem("users")) || {};
 
 // get storage
