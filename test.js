@@ -1,3 +1,4 @@
+alert("test.js is running");
 const video = document.getElementById("video");
 const optionsDiv = document.getElementById("options");
 const feedback = document.getElementById("feedback");
@@ -122,6 +123,6 @@ function finish() {
 
   console.log("Saved progress:", users);
 }
-
+console.log("Lessons",lessons);
 // start
 loadQuestion();
