@@ -2,25 +2,35 @@
 <html>
 <head>
   <title>Progress</title>
-  <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body onload="checkSession()">
+<h1>Your Progress</h1>
 
-<h2>Your Progress</h2>
+<p id="accuracy"></p>
 
-<pre id="progress"></pre>
-<nav>
-  <a href="index.html">Home</a> |
-  <a href="course.html">Course</a> |
-  <a href="practice.html">Practice</a> |
-  <a href="test.html">Test</a>
-</nav>
-<hr>
-<button onclick="logout()">Logout</button>
+<h2>Strong Signs</h2>
+<ul id="strong"></ul>
 
-<script src="session.js"></script>
+<h2>Weak Signs</h2>
+<ul id="weak"></ul>
+
+<h2>Suggested Lessons</h2>
+<ul id="suggested"></ul>
+
+<button onclick="window.location.href='practice.html'">
+  Practice Weak Signs
+</button>
+
+<br><br>
+
+<button onclick="window.location.href='course.html'">
+  Back to Course
+</button>
+
+<script src="data.js"></script>
 <script src="progress.js"></script>
+<script src="progressPage.js"></script>
 
 </body>
 </html>
