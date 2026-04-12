@@ -37,9 +37,16 @@ function getUnlockedLessons() {
 function loadQuestion() {
   const unlocked = getUnlockedLessons();
 
-  // pick a lesson
-  if (!currentLesson) {
+  //fallback
+  if (!unlocked || unlocked.length === 0) {
+    currentLesson = lessons[0];
+  } else if (!currentLesson) {
     currentLesson = unlocked[unlocked.length - 1];
+  }
+
+  if (!currentLesson || !currentLesson.signs.length) {
+    feedback.textContent = "Error loading lesson";
+    return;
   }
 
   currentSign =
@@ -75,7 +82,6 @@ function loadQuestion() {
     optionsDiv.appendChild(btn);
   });
 }
-
 function check(answer) {
   question++;
 
