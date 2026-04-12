@@ -28,12 +28,16 @@ function loadSign() {
 
 function nextSign() {
   index++;
+  //end of lesson
   if (index >= lesson.signs.length) {
-    index = 0;
+    alert("Lesson complete!");
+    // go back to course page
+    window.location.href = "course.html";
+    return;
   }
+
   loadSign();
 }
-
 function goBack() {
   window.location.href = "course.html";
 }
