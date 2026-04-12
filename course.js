@@ -1,4 +1,10 @@
 alert("course.js is running");
+const container = docuement.getElementById("lessons");
+lessons.forEach(lesson=>{
+  const div = document.createElement("div");
+  div.textCntent = lesson.title;
+  container.appendChild(div);
+});
 let users = JSON.parse(localStorage.getItem("users")) || {};
 
 // get storage
