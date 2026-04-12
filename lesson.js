@@ -1,19 +1,21 @@
 const video = document.getElementById("video");
 const label = document.getElementById("label");
+const title = document.getElementById("lessonTitle");
 
 const params = new URLSearchParams(window.location.search);
 const lessonId = params.get("id");
 
-console.log("Lesson ID from URL:", lessonId);
+console.log("Lesson ID:", lessonId);
 
 // find lesson
 let lesson = lessons.find(l => l.id === lessonId);
 
-// fallback
+// fallback if broken
 if (!lesson) {
-  console.log("Lesson not found, defaulting to lesson1");
   lesson = lessons[0];
 }
+
+title.textContent = lesson.title;
 
 let index = 0;
 
@@ -26,8 +28,14 @@ function loadSign() {
 
 function nextSign() {
   index++;
-  if (index >= lesson.signs.length) index = 0;
+  if (index >= lesson.signs.length) {
+    index = 0;
+  }
   loadSign();
+}
+
+function goBack() {
+  window.location.href = "course.html";
 }
 
 // start
