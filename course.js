@@ -30,19 +30,28 @@ function isUnlocked(index) {
 
 // lessons
 lessons.forEach((lesson, index) => {
-  const div = document.createElement("div");
+  div.className = "card";
+const unlocked = isUnlocked(index);
+const score = user.progress[lesson.id]?.score || 0;
 
-  const unlocked = isUnlocked(index);
-  const score = user.progress[lesson.id]?.score || 0;
+div.innerHTML = `
+  <h3>${lesson.title}</h3>
 
-  div.innerHTML = `
-    <h3>${lesson.title}</h3>
-    <p>Score: ${score}%</p>
-    <button ${!unlocked ? "disabled" : ""} onclick="startLesson('${lesson.id}')">
-      ${unlocked ? "Start" : "Locked"}
-    </button>
-  `;
+  <div style="background:#ddd;height:10px;border-radius:5px;">
+    <div style="
+      width:${score}%;
+      height:10px;
+      background:#4CAF50;
+      border-radius:5px;
+    "></div>
+  </div>
 
+  <p>${score}% complete</p>
+
+  <button ${!unlocked ? "disabled" : ""} onclick="startLesson('${lesson.id}')">
+    ${unlocked ? "Start" : "Locked"}
+  </button>
+`;
   container.appendChild(div);
 });
 
