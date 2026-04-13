@@ -16,7 +16,7 @@ const lessons = [
       { name: "Thank You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/TH/THANK.mp4" },
       { name: "Please", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/PL/PLEASE.mp4" },
       { name: "Sorry", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/SO/SORRY.mp4" },
-      { name: "You're Welcome", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/YO/YOU.mp4" }
+      { name: "You're Welcome", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/BE/BECKON.mp4" }
     ]
   },
   {
@@ -26,8 +26,8 @@ const lessons = [
       { name: "Eat", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/EA/EAT.mp4" },
       { name: "Drink", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/DR/DRINK.mp4" },
       { name: "Look", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/LO/LOOK.mp4" },
-      { name: "Listen", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/LI/LISTEN.mp4" },
-      { name: "Stop", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/ST/STOP.mp4" }
+      { name: "Listen", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HEAR.mp4" },
+      { name: "Stop", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/FI/FINISH2.mp4" }
     ]
   },
   {
