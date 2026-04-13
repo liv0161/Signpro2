@@ -1,65 +1,69 @@
-const video = document.getElementById("video");
-const optionsDiv = document.getElementById("options");
-const feedback = document.getElementById("feedback");
+window.onload = () => {
 
-let useWeakOnly = false;
-let currentSign;
+  const video = document.getElementById("video");
+  const optionsDiv = document.getElementById("options");
+  const feedback = document.getElementById("feedback");
 
-function getAllSigns() {
-  return lessons.flatMap(l => l.signs);
-}
+  let useWeakOnly = false;
+  let currentSign;
 
-function loadQuestion() {
-  let signs = getAllSigns();
-
-  if (useWeakOnly) {
-    const weak = getWeakSigns();
-    signs = signs.filter(s => weak.includes(s.name));
+  function getAllSigns() {
+    return lessons.flatMap(l => l.signs);
   }
 
-  if (signs.length === 0) {
-    feedback.textContent = "No weak signs yet!";
-    return;
-  }
+  function loadQuestion() {
+    let signs = getAllSigns();
 
-  currentSign = signs[Math.floor(Math.random() * signs.length)];
-
-  video.src = currentSign.video;
-
-  optionsDiv.innerHTML = "";
-
-  const answers = [currentSign.name];
-
-  while (answers.length < 4) {
-    const rand = getAllSigns()[Math.floor(Math.random() * getAllSigns().length)];
-    if (!answers.includes(rand.name)) {
-      answers.push(rand.name);
+    if (useWeakOnly) {
+      const weak = getWeakSigns();
+      signs = signs.filter(s => weak.includes(s.name));
     }
+
+    if (signs.length === 0) {
+      feedback.textContent = "No signs available yet!";
+      return;
+    }
+
+    currentSign = signs[Math.floor(Math.random() * signs.length)];
+
+    video.src = currentSign.video;
+
+    optionsDiv.innerHTML = "";
+
+    const answers = [currentSign.name];
+
+    while (answers.length < 4) {
+      const rand = getAllSigns()[Math.floor(Math.random() * getAllSigns().length)];
+      if (!answers.includes(rand.name)) {
+        answers.push(rand.name);
+      }
+    }
+
+    answers.sort(() => Math.random() - 0.5);
+
+    answers.forEach(ans => {
+      const btn = document.createElement("button");
+      btn.textContent = ans;
+      btn.onclick = () => check(ans);
+      optionsDiv.appendChild(btn);
+    });
   }
 
-  answers.sort(() => Math.random() - 0.5);
+  function check(ans) {
+    const isCorrect = ans === currentSign.name;
 
-  answers.forEach(ans => {
-    const btn = document.createElement("button");
-    btn.textContent = ans;
-    btn.onclick = () => check(ans);
-    optionsDiv.appendChild(btn);
-  });
-}
+    updateSign(currentSign.name, isCorrect);
 
-function check(ans) {
-  const isCorrect = ans === currentSign.name;
+    feedback.textContent = isCorrect ? "Correct" : "Incorrect";
 
-  updateSign(currentSign.name, isCorrect);
+    setTimeout(loadQuestion, 800);
+  }
 
-  feedback.textContent = isCorrect ? "Correct" : "Incorrect";
+  // weak practice
+  window.startWeakPractice = function () {
+    useWeakOnly = true;
+    loadQuestion();
+  };
 
-  setTimeout(loadQuestion, 800);
-}
-
-function startWeakPractice() {
-  useWeakOnly = true;
   loadQuestion();
-}
-
-loadQuestion();
+};
