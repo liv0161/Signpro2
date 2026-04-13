@@ -1,29 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Test | SignPro</title>
+  <title>Test</title>
 </head>
-
 <body>
 
-<nav>
-  <a href="index.html">Home</a> |
-  <a href="course.html">Course</a> |
-  <a href="practice.html">Practice</a> |
-  <a href="test.html">Test</a>
-</nav>
 <h1>Test</h1>
 
-<video id="video" controls width="300"></video>
+<video id="video" width="300" controls></video>
+
 <br><br>
+
 <input type="text" id="answer" placeholder="Enter sign name">
+
 <br><br>
+
 <button onclick="submitAnswer()">Submit</button>
-  
-<script src="data.js"></script>
-<script src="progress.js"></script>
-<script src="test.js"></script>
+
+<p id="feedback"></p>
+
+<script src="data.js" defer></script>
+<script src="progress.js" defer></script>
+<script src="test.js" defer></script>
 
 </body>
 </html>
