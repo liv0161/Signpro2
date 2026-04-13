@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <title>Practice</title>
 </head>
@@ -7,21 +7,23 @@
 
 <h1>Practice</h1>
 
-<div> 
-  <video id="practiceVideo" width="300" height="240" controls autoplay></video>
-</div>
-<div id="question"></div>
+<video id="video" width="300" controls></video>
+
+<br><br>
+
+<div id="options"></div>
+
 <p id="feedback"></p>
-<button onclick="nextQuestion()">Next</button>
-<nav>
-  <a href="index.html">Home</a> |
-  <a href="course.html">Course</a> |
-  <a href="practice.html">Practice</a> |
-  <a href="test.html">Test</a>
-  <button onclick="startWeakPractice()">Practice Weak Signs</button>
-</nav>
-<hr>
-<script src="data.js"></script>
-<script src="practice.js"></script>
+
+<button onclick="startWeakPractice()">Practice Weak Signs</button>
+
+<br><br>
+
+<button onclick="window.location.href='course.html'">Back</button>
+
+<script src="data.js" defer></script>
+<script src="progress.js" defer></script>
+<script src="practice.js" defer></script>
+
 </body>
 </html>
