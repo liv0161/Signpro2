@@ -4,6 +4,7 @@ window.onload = () => {
   let score = 0;
   let questions = lessons.flatMap(l => l.signs);
 
+  const progressText = document.getElementById("progressText");
   const video = document.getElementById("video");
   const input = document.getElementById("answer");
   const feedback = document.getElementById("feedback");
@@ -14,6 +15,7 @@ window.onload = () => {
     video.src = sign.video;
     input.value = "";
     feedback.textContent = "";
+    progressText.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
   }
 
   window.submitAnswer = function () {
