@@ -62,4 +62,4 @@ function startLesson(id) {
   window.location.href = `lesson.html?id=${id}`;
 }
 
-renderLessons();
+window.onload = renderLessons;
