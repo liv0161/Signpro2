@@ -1,5 +1,12 @@
 const container = document.getElementById("lessons");
 
+if (!container) {
+  console.error("No lessons container found");
+}
+
+if (typeof lessons === "undefined") {
+  console.error("Lessons not loaded");
+}
 // load progress
 let progress = JSON.parse(localStorage.getItem("progress")) || {
   signs: {},
