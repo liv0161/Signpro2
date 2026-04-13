@@ -1,52 +1,58 @@
-let currentIndex = 0;
-let score = 0;
-let questions = lessons.flatMap(l => l.signs);
+window.onload = () => {
 
-function loadQuestion() {
-  const sign = questions[currentIndex];
+  let currentIndex = 0;
+  let score = 0;
+  let questions = lessons.flatMap(l => l.signs);
 
-  document.getElementById("video").src = sign.video;
-  document.getElementById("answer").value = "";
-}
+  const video = document.getElementById("video");
+  const input = document.getElementById("answer");
+  const feedback = document.getElementById("feedback");
 
-function submitAnswer() {
-  const userAnswer = document.getElementById("answer").value.trim();
-  const correctAnswer = questions[currentIndex].name;
+  function loadQuestion() {
+    const sign = questions[currentIndex];
 
-  let isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-
-  if (isCorrect) {
-    score++;
+    video.src = sign.video;
+    input.value = "";
+    feedback.textContent = "";
   }
 
-  // update progress
-  updateSign(correctAnswer, isCorrect);
+  window.submitAnswer = function () {
+    const userAnswer = input.value.trim();
+    const correctAnswer = questions[currentIndex].name;
 
-  currentIndex++;
+    const isCorrect =
+      userAnswer.toLowerCase() === correctAnswer.toLowerCase();
 
-  if (currentIndex >= questions.length) {
-    finishTest();
-  } else {
-    loadQuestion();
+    if (isCorrect) score++;
+
+    updateSign(correctAnswer, isCorrect);
+
+    feedback.textContent = isCorrect ? "Correct" : "Incorrect";
+
+    currentIndex++;
+
+    setTimeout(() => {
+      if (currentIndex >= questions.length) {
+        finishTest();
+      } else {
+        loadQuestion();
+      }
+    }, 800);
+  };
+
+  function finishTest() {
+    let accuracy = Math.round((score / questions.length) * 100);
+
+    document.body.innerHTML = `
+      <h1>Test Complete</h1>
+      <p>Score: ${score}/${questions.length}</p>
+      <p>Accuracy: ${accuracy}%</p>
+
+      <button onclick="window.location.href='progress.html'">
+        View Progress
+      </button>
+    `;
   }
-}
 
-function finishTest() {
-  let accuracy = Math.round((score / questions.length) * 100);
-
-  document.body.innerHTML = `
-    <h1>Test Complete!</h1>
-    <p>Score: ${score}/${questions.length}</p>
-    <p>Accuracy: ${accuracy}%</p>
-
-    <button onclick="window.location.href='progress.html'">
-      View Progress
-    </button>
-
-    <button onclick="window.location.href='course.html'">
-      Back to Course
-    </button>
-  `;
-}
-
-loadQuestion();
+  loadQuestion();
+};
