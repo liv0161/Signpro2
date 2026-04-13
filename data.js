@@ -5,7 +5,7 @@ const lessons = [
     signs: [
       { name: "Hello", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HELLO.mp4" },
       { name: "Goodbye", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WA/WAVE-HAND.mp4" },
-      { name: "How Are You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HO/HOW.mp4" },
+      { name: "How Are You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HEALTHY.mp4" },
       { name: "My Name Is", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/NA/NAME.mp4" }
     ]
   },
@@ -13,7 +13,7 @@ const lessons = [
     id: "lesson2",
     title: "Manners",
     signs: [
-      { name: "Thank You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/TH/THANK-YOU.mp4" },
+      { name: "Thank You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/TH/THANK.mp4" },
       { name: "Please", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/PL/PLEASE.mp4" },
       { name: "Sorry", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/SO/SORRY.mp4" },
       { name: "You're Welcome", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/YO/YOU.mp4" }
@@ -34,7 +34,7 @@ const lessons = [
     id: "lesson4",
     title: "Food & Kitchen",
     signs: [
-      { name: "Food", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/FO/FOOD.mp4" },
+      { name: "Food", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/DI/DINNER.mp4" },
       { name: "Hungry", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HU/HUNGRY.mp4" },
       { name: "Sandwich", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/SA/SANDWICH.mp4" },
       { name: "Cook", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/CO/COOK.mp4" },
