@@ -8,6 +8,8 @@ window.onload = () => {
     .slice(0,10)
 
   const progressText = document.getElementById("progressText");
+  const progressBar = document.getElementById("progressBar");
+  const passInfo = document.getElementById("passInfo");
   const video = document.getElementById("video");
   const input = document.getElementById("answer");
   const feedback = document.getElementById("feedback");
@@ -19,6 +21,11 @@ window.onload = () => {
     input.value = "";
     feedback.textContent = "";
     progressText.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
+    let percent = (currentIndex / questions.length)*100;
+    progressBar.style.width = percent + "%";
+    let needed = Math.ceil(0.7*questions.length);
+    let remaining = questions.length - currentIndex;
+    passInfo.textContent = `Score: ${score} | Need ${needed} to pass`;
   }
 
   window.submitAnswer = function () {
@@ -47,6 +54,12 @@ window.onload = () => {
 
   function finishTest() {
     let accuracy = Math.round((score / questions.length) * 100);
+    // save test summary
+    localStorage.setItem("lastTest", JSON.stringify({
+      score:score,
+      total: questions.length,
+      accuracy: accuracy
+    }));
 
     document.body.innerHTML = `
       <h1>Test Complete</h1>
