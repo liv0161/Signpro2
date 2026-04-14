@@ -2,7 +2,10 @@ window.onload = () => {
 
   let currentIndex = 0;
   let score = 0;
-  let questions = lessons.flatMap(l => l.signs);
+  let allSigns = lessons.flatMap(l => l.signs);
+  let questions = allSgns
+    .sort(() => Math.random()-0.5)
+    .slice(0,10)
 
   const progressText = document.getElementById("progressText");
   const video = document.getElementById("video");
