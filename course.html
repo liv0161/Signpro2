@@ -4,7 +4,12 @@
   <title>Course</title>
 </head>
 <body>
-
+<nav style="background:#333;padding:10px;">
+  <a href="course.html" class="nav-link">Course</a>
+  <a href="practice.html" class="nav-link">Practice</a>
+  <a href="test.html" class="nav-link">Test</a>
+  <a href="progress.html" class="nav-link">Progress</a>
+</nav>
 <h1>Course</h1>
 
 <div id="lessons"></div>
@@ -12,5 +17,14 @@
   
 <script src="data.js" defer></script>
 <script src="course.js" defer></script>
+<script>
+  const links = document.querySelectorAll(".nav-link");
+
+  links.forEach(link => {
+    if (link.href.includes(window.location.pathname)) {
+      link.classList.add("active");
+    }
+  });
+</script>
 </body>
 </html>
