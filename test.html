@@ -6,19 +6,16 @@
 <body>
 
 <h1>Test</h1>
-<p id = "progressText"></p> 
-<video id="video" width="300" controls></video>
-
+<p id="progressText"></p>
+<div style="background:#ddd;height:10px;border-radius:5px;width:300px;">
+  <div id="progressBar" style="height:10px;width:0%;background:#4CAF50;border-radius:5px;"></div>
+</div>
+<p id="passInfo"></p><video id="video" width="300" controls></video>
 <br><br>
-
 <input type="text" id="answer" placeholder="Enter sign name">
-
 <br><br>
-
 <button onclick="submitAnswer()">Submit</button>
-
 <p id="feedback"></p>
-
 <script src="data.js" defer></script>
 <script src="progress.js" defer></script>
 <script src="test.js" defer></script>
