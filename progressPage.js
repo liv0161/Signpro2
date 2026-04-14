@@ -1,29 +1,60 @@
-document.getElementById("accuracy").innerHTML =
-  `<h2>Overall Accuracy: ${getAccuracy()}%</h2>`;
+window.onload = () => {
 
-// strong signs
-const strong = getStrongSigns();
-const weak = getWeakSigns();
+  const progress = JSON.parse(localStorage.getItem("progress")) || { signs: {} };
+  const lastTest = JSON.parse(localStorage.getItem("lastTest"));
 
-function renderList(id, arr) {
-  const el = document.getElementById(id);
-  el.innerHTML = "";
+  const testSummary = document.getElementById("testSummary");
+  const strongList = document.getElementById("strongList");
+  const weakList = document.getElementById("weakList");
+  const recommendList = document.getElementById("recommendList");
 
-  if (arr.length === 0) {
-    el.innerHTML = "<li>None yet</li>";
-    return;
+  // test summary
+  if (lastTest) {
+    testSummary.textContent =
+      `Score: ${lastTest.score}/${lastTest.total} (${lastTest.accuracy}%)`;
+  } else {
+    testSummary.textContent = "No test taken yet.";
   }
 
-  arr.forEach(item => {
+  // classify sgns
+  let strong = [];
+  let weak = [];
+
+  for (let sign in progress.signs) {
+    let data = progress.signs[sign];
+
+    let accuracy = data.correct / data.attempts;
+
+    if (accuracy >= 0.7) {
+      strong.push(sign);
+    } else {
+      weak.push(sign);
+    }
+  }
+
+  // strong signs
+  strong.forEach(s => {
     const li = document.createElement("li");
-    li.textContent = item;
-    el.appendChild(li);
+    li.textContent = s;
+    strongList.appendChild(li);
   });
-}
 
-renderList("strong", strong);
-renderList("weak", weak);
+  //weak signs
+  weak.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s;
+    weakList.appendChild(li);
+  });
 
-// suggested lessons
-const suggested = getSuggestedLessons();
-renderList("suggested", suggested);
+  //recommended lessons
+  lessons.forEach(lesson => {
+    let hasWeak = lesson.signs.some(sign => weak.includes(sign.name));
+
+    if (hasWeak) {
+      const li = document.createElement("li");
+      li.textContent = lesson.title;
+      recommendList.appendChild(li);
+    }
+  });
+
+};
