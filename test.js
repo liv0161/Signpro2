@@ -4,9 +4,8 @@ window.onload = () => {
   let score = 0;
   let allSigns = lessons.flatMap(l => l.signs);
   let questions = allSigns
-    .sort(() => Math.random()-0.5)
-    .slice(0,10)
-
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 10);
   const progressText = document.getElementById("progressText");
   const progressBar = document.getElementById("progressBar");
   const passInfo = document.getElementById("passInfo");
