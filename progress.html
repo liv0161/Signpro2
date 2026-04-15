@@ -27,13 +27,23 @@
 
 <br><br>
 
-<button onclick="window.location.href='course.html'">
-  Back to Course
-</button>
-
+<nav style="background:#333;padding:10px;">
+  <a href="course.html" class="nav-link">Course</a>
+  <a href="practice.html" class="nav-link">Practice</a>
+  <a href="test.html" class="nav-link">Test</a>
+  <a href="progress.html" class="nav-link">Progress</a>
+</nav>
 <script src="data.js"></script>
-<script src="progress.js"></script>
-<script src="progressPage.js"></script>
+<script src="lesson.js"></script>
+<script>
+  const links = document.querySelectorAll(".nav-link");
+
+  links.forEach(link => {
+    if (link.href.includes(window.location.pathname)) {
+      link.classList.add("active");
+    }
+  });
+</script>
 
 </body>
 </html>
