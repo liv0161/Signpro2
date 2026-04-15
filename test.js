@@ -3,7 +3,7 @@ window.onload = () => {
   let currentIndex = 0;
   let score = 0;
   let allSigns = lessons.flatMap(l => l.signs);
-  let questions = allSgns
+  let questions = allSigns
     .sort(() => Math.random()-0.5)
     .slice(0,10)
 
