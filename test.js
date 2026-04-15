@@ -50,7 +50,21 @@ window.onload = () => {
       }
     }, 800);
   };
+function updateSign(name, correct) {
+  let progress = JSON.parse(localStorage.getItem("progress")) || {
+    signs: {},
+    lessonsUnlocked: ["lesson1"]
+  };
 
+  if (!progress.signs[name]) {
+    progress.signs[name] = { correct: 0, attempts: 0 };
+  }
+
+  progress.signs[name].attempts++;
+  if (correct) progress.signs[name].correct++;
+
+  localStorage.setItem("progress", JSON.stringify(progress));
+}
   function finishTest() {
     let accuracy = Math.round((score / questions.length) * 100);
     // save test summary
