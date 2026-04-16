@@ -35,27 +35,38 @@ window.onload = () => {
   const input = document.getElementById("answer");
   const feedback = document.getElementById("feedback");
 
-  function loadQuestion() {
-    const sign = questions[currentIndex];
+  function generateQuestions() {
+  let progress = JSON.parse(localStorage.getItem("progress")) || {
+    lessonsUnlocked: ["lesson1"]
+  };
 
-    video.src = sign.video;
-    input.value = "";
-    feedback.textContent = "";
+  let unlockedLessons = lessons.filter(l =>
+    progress.lessonsUnlocked.includes(l.id)
+  );
 
-    // progress text
-    progressText.textContent =
-      `Question ${currentIndex + 1} of ${questions.length}`;
+  let latestLesson = unlockedLessons[unlockedLessons.length - 1];
 
-    // progress bar
-    let percent = (currentIndex / questions.length) * 100;
-    progressBar.style.width = percent + "%";
+  let baseSigns = latestLesson.signs;
 
-    // pass info
-    let needed = Math.ceil(0.7 * questions.length);
-    passInfo.textContent =
-      `Score: ${score} | Need ${needed} to pass`;
+  let otherSigns = unlockedLessons
+    .slice(0, -1)
+    .flatMap(l => l.signs);
+
+  // dynamic test length
+  let testLength = Math.min(10, baseSigns.length + 3);
+
+  let questions = [...baseSigns];
+
+  while (questions.length < testLength && otherSigns.length > 0) {
+    let rand = otherSigns[Math.floor(Math.random() * otherSigns.length)];
+    questions.push(rand);
   }
 
+  // shuffle
+  questions = questions.sort(() => Math.random() - 0.5);
+
+  return questions;
+}
   window.submitAnswer = function () {
     const userAnswer = input.value.trim();
     const correctAnswer = questions[currentIndex].name;
