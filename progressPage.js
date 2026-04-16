@@ -17,21 +17,25 @@ window.onload = () => {
   }
 
   // classify sgns
-  let strong = [];
-  let weak = [];
+let strong = [];
+let weak = [];
 
-  for (let sign in progress.signs) {
-    let data = progress.signs[sign];
+for (let sign in progress.signs) {
+  let data = progress.signs[sign];
 
-    let accuracy = data.correct / data.attempts;
+  let attempts = data.attempts || (data.correct + (data.wrong || 0));
+  let correct = data.correct || 0;
 
-    if (accuracy >= 0.7) {
-      strong.push(sign);
-    } else {
-      weak.push(sign);
-    }
+  if (attempts === 0) continue;
+
+  let accuracy = correct / attempts;
+
+  if (accuracy >= 0.7) {
+    strong.push(sign);
+  } else {
+    weak.push(sign);
   }
-
+}
   // strong signs
   strong.forEach(s => {
     const li = document.createElement("li");
