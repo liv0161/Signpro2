@@ -1,4 +1,3 @@
-alert("progress is running bab");
 window.onload = () => {
 
   const progress = JSON.parse(localStorage.getItem("progress")) || { signs: {} };
