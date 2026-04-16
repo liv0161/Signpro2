@@ -2,10 +2,32 @@ window.onload = () => {
 
   let currentIndex = 0;
   let score = 0;
-  let allSigns = lessons.flatMap(l => l.signs);
+
+  //unlocked signs only
+  function getUnlockedSigns() {
+    let progress = JSON.parse(localStorage.getItem("progress")) || {
+      signs: {},
+      lessonsUnlocked: ["lesson1"]
+    };
+
+    return lessons
+      .filter(lesson => progress.lessonsUnlocked.includes(lesson.id))
+      .flatMap(lesson => lesson.signs);
+  }
+
+  let allSigns = getUnlockedSigns();
+
+  // safety check
+  if (allSigns.length === 0) {
+    alert("No unlocked lessons yet!");
+    return;
+  }
+
+  // random 10 questions
   let questions = allSigns
     .sort(() => Math.random() - 0.5)
     .slice(0, 10);
+
   const progressText = document.getElementById("progressText");
   const progressBar = document.getElementById("progressBar");
   const passInfo = document.getElementById("passInfo");
@@ -19,12 +41,19 @@ window.onload = () => {
     video.src = sign.video;
     input.value = "";
     feedback.textContent = "";
-    progressText.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
-    let percent = (currentIndex / questions.length)*100;
+
+    // progress text
+    progressText.textContent =
+      `Question ${currentIndex + 1} of ${questions.length}`;
+
+    // progress bar
+    let percent = (currentIndex / questions.length) * 100;
     progressBar.style.width = percent + "%";
-    let needed = Math.ceil(0.7*questions.length);
-    let remaining = questions.length - currentIndex;
-    passInfo.textContent = `Score: ${score} | Need ${needed} to pass`;
+
+    // pass info
+    let needed = Math.ceil(0.7 * questions.length);
+    passInfo.textContent =
+      `Score: ${score} | Need ${needed} to pass`;
   }
 
   window.submitAnswer = function () {
@@ -50,26 +79,28 @@ window.onload = () => {
       }
     }, 800);
   };
-function updateSign(name, correct) {
-  let progress = JSON.parse(localStorage.getItem("progress")) || {
-    signs: {},
-    lessonsUnlocked: ["lesson1"]
-  };
 
-  if (!progress.signs[name]) {
-    progress.signs[name] = { correct: 0, attempts: 0 };
+  function updateSign(name, correct) {
+    let progress = JSON.parse(localStorage.getItem("progress")) || {
+      signs: {},
+      lessonsUnlocked: ["lesson1"]
+    };
+
+    if (!progress.signs[name]) {
+      progress.signs[name] = { correct: 0, attempts: 0 };
+    }
+
+    progress.signs[name].attempts++;
+    if (correct) progress.signs[name].correct++;
+
+    localStorage.setItem("progress", JSON.stringify(progress));
   }
 
-  progress.signs[name].attempts++;
-  if (correct) progress.signs[name].correct++;
-
-  localStorage.setItem("progress", JSON.stringify(progress));
-}
   function finishTest() {
     let accuracy = Math.round((score / questions.length) * 100);
-    // save test summary
+
     localStorage.setItem("lastTest", JSON.stringify({
-      score:score,
+      score: score,
       total: questions.length,
       accuracy: accuracy
     }));
