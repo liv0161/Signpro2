@@ -7,12 +7,43 @@ window.onload = () => {
   let useWeakOnly = false;
   let currentSign;
 
-  function getAllSigns() {
-    return lessons.flatMap(l => l.signs);
+  // only unlocked signs
+  function getUnlockedSigns() {
+    let progress = JSON.parse(localStorage.getItem("progress")) || {
+      signs: {},
+      lessonsUnlocked: ["lesson1"]
+    };
+
+    return lessons
+      .filter(lesson => progress.lessonsUnlocked.includes(lesson.id))
+      .flatMap(lesson => lesson.signs);
+  }
+
+  function getWeakSigns() {
+    let progress = JSON.parse(localStorage.getItem("progress")) || { signs: {} };
+
+    let weak = [];
+
+    for (let sign in progress.signs) {
+      let data = progress.signs[sign];
+
+      let attempts = data.attempts || 0;
+      let correct = data.correct || 0;
+
+      if (attempts === 0) continue;
+
+      let accuracy = correct / attempts;
+
+      if (accuracy < 0.7) {
+        weak.push(sign);
+      }
+    }
+
+    return weak;
   }
 
   function loadQuestion() {
-    let signs = getAllSigns();
+    let signs = getUnlockedSigns();
 
     if (useWeakOnly) {
       const weak = getWeakSigns();
@@ -27,13 +58,13 @@ window.onload = () => {
     currentSign = signs[Math.floor(Math.random() * signs.length)];
 
     video.src = currentSign.video;
-
     optionsDiv.innerHTML = "";
 
     const answers = [currentSign.name];
 
     while (answers.length < 4) {
-      const rand = getAllSigns()[Math.floor(Math.random() * getAllSigns().length)];
+      const rand = getUnlockedSigns()[Math.floor(Math.random() * getUnlockedSigns().length)];
+
       if (!answers.includes(rand.name)) {
         answers.push(rand.name);
       }
@@ -59,7 +90,23 @@ window.onload = () => {
     setTimeout(loadQuestion, 800);
   }
 
-  // weak practice
+  function updateSign(name, correct) {
+    let progress = JSON.parse(localStorage.getItem("progress")) || {
+      signs: {},
+      lessonsUnlocked: ["lesson1"]
+    };
+
+    if (!progress.signs[name]) {
+      progress.signs[name] = { correct: 0, attempts: 0 };
+    }
+
+    progress.signs[name].attempts++;
+    if (correct) progress.signs[name].correct++;
+
+    localStorage.setItem("progress", JSON.stringify(progress));
+  }
+
+  // weak ssigns practice button
   window.startWeakPractice = function () {
     useWeakOnly = true;
     loadQuestion();
