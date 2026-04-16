@@ -5,45 +5,36 @@
 </head>
 <body>
 
+
+<nav style="background:#333;padding:10px;">
+  <a href="course.html" style="color:white;margin-right:15px;">Course</a>
+  <a href="practice.html" style="color:white;margin-right:15px;">Practice</a>
+  <a href="test.html" style="color:white;margin-right:15px;">Test</a>
+  <a href="progress.html" style="color:white;">Progress</a>
+</nav>
+
 <h1>Your Progress</h1>
 
-<p id="accuracy"></p>
 
 <h2>Last Test</h2>
 <p id="testSummary"></p>
+
+
+<h2>Strong Signs </h2>
+<ul id="strongList"></ul>
+
+
+<h2>Weak Signs </h2>
+<ul id="weakList"></ul>
   
-<h2>Strong Signs</h2>
-<ul id="strong"></ul>
 
-<h2>Weak Signs</h2>
-<ul id="weak"></ul>
+<h2>Recommended Lessons </h2>
+<ul id="recommendList"></ul>
 
-<h2>Suggested Lessons</h2>
-<ul id="suggested"></ul>
 
-<button onclick="window.location.href='practice.html'">
-  Practice Weak Signs
-</button>
-
-<br><br>
-
-<nav style="background:#333;padding:10px;">
-  <a href="course.html" class="nav-link">Course</a>
-  <a href="practice.html" class="nav-link">Practice</a>
-  <a href="test.html" class="nav-link">Test</a>
-  <a href="progress.html" class="nav-link">Progress</a>
-</nav>
-<script src="data.js"></script>
-<script src="lesson.js"></script>
-<script>
-  const links = document.querySelectorAll(".nav-link");
-
-  links.forEach(link => {
-    if (link.href.includes(window.location.pathname)) {
-      link.classList.add("active");
-    }
-  });
-</script>
+<script src="data.js" defer></script>
+<script src="progress.js" defer></script>
+<script src="progressPage.js" defer></script>
 
 </body>
 </html>
