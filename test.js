@@ -42,24 +42,37 @@ window.onload = () => {
     progress.lessonsUnlocked.includes(l.id)
   );
 
+  // fallback
+  if (unlockedLessons.length === 0) {
+    unlockedLessons = [lessons[0]];
+  }
+
   let latestLesson = unlockedLessons[unlockedLessons.length - 1];
 
-  let baseSigns = latestLesson.signs;
+  let baseSigns = latestLesson.signs || [];
 
   let otherSigns = unlockedLessons
     .slice(0, -1)
     .flatMap(l => l.signs);
 
-  // dynamic test length
+  // test length
   let testLength = Math.min(10, baseSigns.length + 3);
 
   let questions = [...baseSigns];
 
+  // add extra questions
   while (questions.length < testLength && otherSigns.length > 0) {
     let rand = otherSigns[Math.floor(Math.random() * otherSigns.length)];
     questions.push(rand);
   }
 
+  //jic empty
+  if (questions.length === 0) {
+    questions = lessons[0].signs.slice(0, 5);
+  }
+
+  return questions.sort(() => Math.random() - 0.5);
+}
   // shuffle
   questions = questions.sort(() => Math.random() - 0.5);
 
