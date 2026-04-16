@@ -24,9 +24,7 @@ window.onload = () => {
   }
 
   // random 10 questions
-  let questions = allSigns
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 10);
+  let questions = generateQuestions();
 
   const progressText = document.getElementById("progressText");
   const progressBar = document.getElementById("progressBar");
