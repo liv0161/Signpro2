@@ -97,24 +97,51 @@ window.onload = () => {
   }
 
   function finishTest() {
-    let accuracy = Math.round((score / questions.length) * 100);
+  let accuracy = Math.round((score / questions.length) * 100);
 
-    localStorage.setItem("lastTest", JSON.stringify({
-      score: score,
-      total: questions.length,
-      accuracy: accuracy
-    }));
+  let progress = JSON.parse(localStorage.getItem("progress")) || {
+    signs: {},
+    lessonsUnlocked: ["lesson1"]
+  };
 
-    document.body.innerHTML = `
-      <h1>Test Complete</h1>
-      <p>Score: ${score}/${questions.length}</p>
-      <p>Accuracy: ${accuracy}%</p>
+  let needed = Math.ceil(0.7 * questions.length);
 
-      <button onclick="window.location.href='progress.html'">
-        View Progress
-      </button>
-    `;
+  // unlock next lesson
+  if (score >= needed) {
+    let currentUnlocked = progress.lessonsUnlocked.length;
+
+    if (currentUnlocked < lessons.length) {
+      let nextLesson = lessons[currentUnlocked].id;
+
+      if (!progress.lessonsUnlocked.includes(nextLesson)) {
+        progress.lessonsUnlocked.push(nextLesson);
+      }
+    }
   }
+
+  localStorage.setItem("progress", JSON.stringify(progress));
+
+  // save test summary
+  localStorage.setItem("lastTest", JSON.stringify({
+    score: score,
+    total: questions.length,
+    accuracy: accuracy
+  }));
+
+  document.body.innerHTML = `
+    <h1>Test Complete</h1>
+    <p>Score: ${score}/${questions.length}</p>
+    <p>Accuracy: ${accuracy}%</p>
+
+    <button onclick="window.location.href='course.html'">
+      Back to Course
+    </button>
+
+    <button onclick="window.location.href='progress.html'">
+      View Progress
+    </button>
+  `;
+}
 
   loadQuestion();
 };
