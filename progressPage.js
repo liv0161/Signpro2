@@ -49,6 +49,13 @@ for (let sign in progress.signs) {
     li.textContent = s;
     weakList.appendChild(li);
   });
+  if (strong.length === 0) {
+  strongList.innerHTML = "<li>No strong signs yet</li>";
+}
+
+if (weak.length === 0) {
+  weakList.innerHTML = "<li>No weak signs yet</li>";
+};
 
   //recommended lessons
   lessons.forEach(lesson => {
@@ -60,5 +67,4 @@ for (let sign in progress.signs) {
       recommendList.appendChild(li);
     }
   });
-
 };
