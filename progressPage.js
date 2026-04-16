@@ -4,6 +4,8 @@ window.onload = () => {
   const progress = JSON.parse(localStorage.getItem("progress")) || { signs: {} };
   const lastTest = JSON.parse(localStorage.getItem("lastTest"));
 
+  console.log("PROGRESS DATA:", progress);
+
   const testSummary = document.getElementById("testSummary");
   const strongList = document.getElementById("strongList");
   const weakList = document.getElementById("weakList");
@@ -17,48 +19,54 @@ window.onload = () => {
     testSummary.textContent = "No test taken yet.";
   }
 
-  // classify sgns
-let strong = [];
-let weak = [];
+  let strong = [];
+  let weak = [];
 
-for (let sign in progress.signs) {
-  let data = progress.signs[sign];
+  // sign classification
+  for (let sign in progress.signs) {
+    let data = progress.signs[sign];
 
-  let attempts = data.attempts || (data.correct + (data.wrong || 0));
-  let correct = data.correct || 0;
+    let attempts = data.attempts || (data.correct + (data.wrong || 0));
+    let correct = data.correct || 0;
 
-  if (attempts === 0) continue;
+    if (!attempts) continue;
 
-  let accuracy = correct / attempts;
+    let accuracy = correct / attempts;
 
-  if (accuracy >= 0.7) {
-    strong.push(sign);
-  } else {
-    weak.push(sign);
+    if (accuracy >= 0.7) {
+      strong.push(sign);
+    } else {
+      weak.push(sign);
+    }
   }
-}
+
   // strong signs
-  strong.forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = s;
-    strongList.appendChild(li);
-  });
-
-  //weak signs
-  weak.forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = s;
-    weakList.appendChild(li);
-  });
+  strongList.innerHTML = "";
   if (strong.length === 0) {
-  strongList.innerHTML = "<li>No strong signs yet</li>";
-}
+    strongList.innerHTML = "<li>No strong signs yet</li>";
+  } else {
+    strong.forEach(s => {
+      const li = document.createElement("li");
+      li.textContent = s;
+      strongList.appendChild(li);
+    });
+  }
 
-if (weak.length === 0) {
-  weakList.innerHTML = "<li>No weak signs yet</li>";
-};
+  // weak signs
+  weakList.innerHTML = "";
+  if (weak.length === 0) {
+    weakList.innerHTML = "<li>No weak signs yet</li>";
+  } else {
+    weak.forEach(s => {
+      const li = document.createElement("li");
+      li.textContent = s;
+      weakList.appendChild(li);
+    });
+  }
 
-  //recommended lessons
+  // recommended lessons
+  recommendList.innerHTML = "";
+
   lessons.forEach(lesson => {
     let hasWeak = lesson.signs.some(sign => weak.includes(sign.name));
 
@@ -68,4 +76,5 @@ if (weak.length === 0) {
       recommendList.appendChild(li);
     }
   });
+
 };
