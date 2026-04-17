@@ -51,17 +51,22 @@ window.onload = () => {
 
   function loadQuestion() {
     const sign = questions[currentIndex];
-
+  
+    if (!sign) {
+      console.error("NO SIGN FOUND", questions, currentIndex);
+      return;
+    }
+  
     video.src = sign.video;
     input.value = "";
     feedback.textContent = "";
-
+  
     progressText.textContent =
       `Question ${currentIndex + 1} of ${questions.length}`;
-
+  
     let percent = (currentIndex / questions.length) * 100;
     progressBar.style.width = percent + "%";
-
+  
     let needed = Math.ceil(0.7 * questions.length);
     passInfo.textContent =
       `Score: ${score} | Need ${needed} to pass`;
