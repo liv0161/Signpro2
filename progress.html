@@ -31,7 +31,13 @@
 <h2>Recommended Lessons </h2>
 <ul id="recommendList"></ul>
 
-
+ <button onclick = "resetProgress()">Reset Progress</button>
+<button onclick="localStorage.clear()">RESET</button>
+<script>
+function resetProgress(){
+  localStorage.clear();
+  alert("Progress reset.");
+}
 <script src="data.js" defer></script>
 <script src="progress.js" defer></script>
 <script src="progressPage.js" defer></script>
