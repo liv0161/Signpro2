@@ -1,9 +1,9 @@
 const lessons = [
   {
-    id: "lesson1",
-    title: "Greetings",
+    id: "lesson1", // identifier used for unlocking
+    title: "Greetings", // displayed to user
     signs: [
-      { name: "Hello", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HELLO.mp4" },
+      { name: "Hello", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HELLO.mp4" },//name used for answer checking; video source for sign
       { name: "Goodbye", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/WA/WAVE-HAND.mp4" },
       { name: "How Are You", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/HE/HEALTHY.mp4" },
       { name: "My Name Is", video: "https://bslsignbank.ucl.ac.uk/media/bsl-video/NA/NAME.mp4" }
